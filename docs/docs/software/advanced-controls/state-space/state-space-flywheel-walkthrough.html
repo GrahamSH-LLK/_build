@@ -1,0 +1,1449 @@
+<!doctype html>
+<html class="no-js" lang="he" data-content_root="../../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="State-Space Controller Walkthrough" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" />
+<meta property="og:site_name" content="FIRST Robotics Competition Documentation" />
+<meta property="og:description" content="The goal of this tutorial is to provide ”end-to-end“ instructions on implementing a state-space controller for a flywheel. By following this tutorial, readers will learn how to: Create an accurate ..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/wpilibsuite/branding/main/png/wpilib-128.png" />
+<meta property="og:image:alt" content="FIRST Robotics Competition Documentation" />
+<meta name="description" content="The goal of this tutorial is to provide ”end-to-end“ instructions on implementing a state-space controller for a flywheel. By following this tutorial, readers will learn how to: Create an accurate ..." />
+<meta property="og:ignore_canonical" content="true" />
+<meta name="theme-color" content="#003974" />
+<meta name="google-site-verification" content="xcmdxM0KzMYiAOeJzyF_l2Tn3AHGzPICs9_vX6q2nwM" />
+
+<link rel="alternate" hreflang="en" href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" />
+<link rel="alternate" hreflang="x-default" href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" />
+<link rel="alternate" hreflang="es" href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" />
+<link rel="alternate" hreflang="fr" href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" />
+<link rel="alternate" hreflang="he" href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" />
+<link rel="alternate" hreflang="pt" href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" />
+<link rel="alternate" hreflang="tr" href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" />
+<link rel="alternate" hreflang="zh-CN" href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" /><link rel="index" title="אינדקס" href="../../../../genindex.html" /><link rel="search" title="חיפוש" href="../../../../search.html" /><link rel="next" title="State Observers and Kalman Filters" href="state-space-observers.html" /><link rel="prev" title="מבוא לבקרת State-Space" href="state-space-intro.html" />
+        <link rel="canonical" href="https://docs.wpilib.org/en/stable/docs/software/advanced-controls/state-space/state-space-flywheel-walkthrough.html" />
+
+    <link rel="shortcut icon" href="../../../../_static/FIRSTicon_RGB_withTM.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>State-Space Controller Walkthrough - תיעוד FIRST Robotics Competition</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pid-tune.css?v=89dfaf8f" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/frc-furo.css?v=a605b0da" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/frc-rtl.css?v=2b038f9b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-sidebar-background: #003974;
+  --color-sidebar-brand-text: #ffffffcc;
+  --color-sidebar-link-text--top-level: #d9d9d9;
+  --color-background-hover: #023160;
+  --color-sidebar-link-text: #acb1b9;
+  --color-sidebar-caption-text: #81868d;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../../index.html"><div class="brand">תיעוד FIRST Robotics Competition </div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../../index.html">
+   
+
+<span class="sidebar-brand-text"
+  >FIRST Robotics Competition</span
+>
+<div class="sidebar-logo-container">
+  <img class="sidebar-logo" src="../../../../_static/wpilibDocsLogo.png" alt="Logo?" />
+</div>
+
+
+  <div class="version">
+    2024
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="חיפוש" name="q" aria-label="חיפוש">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">מאפס לרובוט</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../zero-to-robot/introduction.html">מבוא</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../zero-to-robot/step-1/index.html">שלב 1: בניית הרובוט</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of שלב 1: בניית הרובוט</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-1/intro-to-frc-robot-wiring.html">Introduction to FRC Robot Wiring</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../zero-to-robot/step-2/index.html">שלב 2: התקנת התוכנות</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of שלב 2: התקנת התוכנות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/offline-installation-preparations.html">הכנת להתקנה Offline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/labview-setup.html">התקנת LabVIEW עבור FRC (LabVIEW בלבד)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/frc-game-tools.html">התקנת ה-FRC Game Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/wpilib-setup.html">מדריך התקנת WPILib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/python-setup.html">Python Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/step-2-next-steps.html">השלבים הבאים</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../zero-to-robot/step-3/index.html">שלב 3: הכנת הרובוט</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of שלב 3: הכנת הרובוט</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-3/roborio2-imaging.html">Imaging your roboRIO 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-3/imaging-your-roborio.html">Imaging your roboRIO 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-3/radio-programming.html">כנפוג הראוטר</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../zero-to-robot/step-4/index.html">שלב 4: תכנות הרובוט</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of שלב 4: תכנות הרובוט</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-4/creating-test-drivetrain-program-labview.html">Creating your Test Drivetrain Program (LabVIEW)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-4/creating-test-drivetrain-program-cpp-java-python.html">Creating your Test Drivetrain Program (Java/C++/Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-4/running-test-program.html">Running your Test Program</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">סקירות על מערכת הבקרה</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../controls-overviews/control-system-hardware.html">סקירת רכיבי חומרה</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../controls-overviews/control-system-software.html">סקירת רכיבי תוכנה</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">יסודות התכנות</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../what-is-wpilib.html">מה זה WPILib?</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../yearly-overview/index.html">2024 Overview</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of 2024 Overview</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../yearly-overview/known-issues.html">בעיות ידעות</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../yearly-overview/yearly-changelog.html">New for 2024</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../yearly-overview/returning-quickstart.html">Quick Start for Returning Teams</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../vscode-overview/index.html">סקירה כללית על VS Code</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of סקירה כללית על VS Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../vscode-overview/vscode-basics.html">יסודות Visual Studio Code והרחבת WPILib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vscode-overview/wpilib-commands-vscode.html">פקודות WPILib ב-Visual Studio Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vscode-overview/creating-robot-program.html">Creating a Robot Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vscode-overview/3rd-party-libraries.html">ספריות צד שלישי</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vscode-overview/deploying-robot-code.html">בנייה והורדה של קוד רובוט</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vscode-overview/viewing-console-output.html">Viewing Console Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vscode-overview/debugging-robot-program.html">Debugging a Robot Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vscode-overview/importing-last-years-robot-code.html">Importing Last Year’s Robot Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dashboards/index.html">Dashboards</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Dashboards</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dashboards/dashboard-intro.html">Choosing a Dashboard</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dashboards/shuffleboard/index.html">Shuffleboard</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Shuffleboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/index.html">Shuffleboard - Getting Started</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Shuffleboard - Getting Started</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-tour.html">Tour of Shuffleboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-displaying-data.html">Displaying data from your robot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-displaying-camera.html">Displaying Camera Streams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-widgets.html">Working with widgets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-lists.html">Working with Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-tabs.html">Creating and manipulating tabs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-graphs.html">Working with Graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-recording.html">Recording and Playback</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-preferences.html">Setting global preferences for Shuffleboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/getting-started/shuffleboard-faq.html">Shuffleboard FAQ, issues, and bugs</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../dashboards/shuffleboard/layouts-with-code/index.html">Shuffleboard - Layouts with Code</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Shuffleboard - Layouts with Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/layouts-with-code/using-tabs.html">Using tabs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/layouts-with-code/sending-data.html">Sending data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/layouts-with-code/retrieving-data.html">Retrieving data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/layouts-with-code/configuring-widgets.html">Configuring widgets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/layouts-with-code/organizing-widgets.html">Organizing Widgets</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../dashboards/shuffleboard/advanced-usage/index.html">Shuffleboard - Advanced Usage</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of Shuffleboard - Advanced Usage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/advanced-usage/shuffleboard-commands-subsystems.html">Commands and Subsystems</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/advanced-usage/shuffleboard-tuning-pid.html">Testing and Tuning PID Loops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/advanced-usage/shuffleboard-hierarchies.html">Viewing Hierarchies of Data</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../dashboards/shuffleboard/custom-widgets/index.html">Shuffleboard - Custom Widgets</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Shuffleboard - Custom Widgets</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/custom-widgets/builtin-plugins.html">Built-in Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/custom-widgets/creating-plugins.html">Creating a Plugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/custom-widgets/creating-custom-data-types.html">Creating Custom Data Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/custom-widgets/creating-a-new-widget.html">Creating A Widget</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/custom-widgets/custom-themes.html">Custom Themes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/shuffleboard/custom-widgets/widget-types.html">Widget Types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dashboards/smartdashboard/index.html">SmartDashboard</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of SmartDashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/smartdashboard/smartdashboard-intro.html">SmartDashboard Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/smartdashboard/displaying-expressions.html">Displaying Expressions from a Robot Program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/smartdashboard/changing-display-properties.html">Changing the display properties of a value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/smartdashboard/changing-display-widget-type.html">Changing the Display Widget Type for a Value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html">Choosing an Autonomous Program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/smartdashboard/displaying-status-of-commands-and-subsystems.html">Displaying the Status of Commands and Subsystems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/smartdashboard/verifying-smartdashboard-is-working.html">Verifying SmartDashboard is working</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/smartdashboard/smartdashboard-namespace.html">SmartDashboard Namespace</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../dashboards/smartdashboard/test-mode-and-live-window/index.html">SmartDashboard: Test Mode and Live Window</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of SmartDashboard: Test Mode and Live Window</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/smartdashboard/test-mode-and-live-window/displaying-LiveWindow-values.html">Displaying LiveWindow Values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/smartdashboard/test-mode-and-live-window/enabling-test-mode.html">Enabling Test mode (LiveWindow)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../dashboards/smartdashboard/test-mode-and-live-window/pid-tuning-with-smartdashboard.html">PID Tuning with SmartDashboard</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dashboards/glass/index.html">Glass</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of Glass</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/glass/introduction.html">Introduction to Glass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/glass/networktables-connection.html">Establishing NetworkTables Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/glass/widgets.html">Glass Widgets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/glass/command-based-widgets.html">Widgets for the Command-Based Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/glass/field2d-widget.html">The Field2d Widget</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/glass/mech2d-widget.html">The Mechanism2d Widget</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/glass/plots.html">Plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dashboards/advantagescope.html">AdvantageScope</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dashboards/labview-dashboard/index.html">LabVIEW Dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle navigation of LabVIEW Dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/labview-dashboard/driver-station-labview-dashboard.html">FRC LabVIEW Dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/labview-dashboard/using-the-labview-dashboard-with-c%2B%2B-java-code.html">Using the LabVIEW Dashboard with C++, Java, or Python Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dashboards/troubleshooting-dashboard-connectivity.html">Troubleshooting Dashboard Connectivity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dashboards/troubleshooting-dashboard-connectivity.html">Troubleshooting Dashboard Connectivity</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../telemetry/index.html">Telemetry</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle navigation of Telemetry</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../telemetry/telemetry.html">Telemetry: Recording and Sending Real-Time Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../telemetry/robot-telemetry-with-sendable.html">Robot Telemetry with Sendable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../telemetry/datalog.html">On-Robot Telemetry Recording Into Data Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../telemetry/datalog-download.html">Downloading &amp; Processing Data Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../telemetry/writing-sendable-classes.html">Writing Your Own Sendable Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../telemetry/3rd-party-libraries.html">Third-Party Telemetry Libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../labview/index.html">תכנות LabVIEW ל-FRC</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle navigation of תכנות LabVIEW ל-FRC</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/labview-setup.html">התקנת LabVIEW עבור FRC (LabVIEW בלבד)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/frc-game-tools.html">התקנת ה-FRC Game Tools</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../labview/creating-robot-programs/index.html">Creating Robot Programs</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle navigation of Creating Robot Programs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../zero-to-robot/step-4/creating-test-drivetrain-program-labview.html">Creating your Test Drivetrain Program (LabVIEW)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/creating-robot-programs/tank-drive-tutorial.html">Tank Drive Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/creating-robot-programs/command-and-control-tutorial.html">Command and Control Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../labview/resources/index.html">LabVIEW Resources</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle navigation of LabVIEW Resources</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/labview-resources.html">LabVIEW Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/waiting-for-target-to-respond.html">Waiting for Target to Respond - Recovering from bad loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/how-to-toggle-between-two-camera-modes.html">How To Toggle Between Two Camera Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/labview-examples-and-tutorials.html">LabVIEW Examples and Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/add-an-independent-motor-to-a-project.html">Add an Independent Motor to a Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/keyboard-navigation-with-the-roborio.html">Keyboard Navigation with the roboRIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/making-a-one-shot-button-press.html">Making a One-Shot Button Press</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/adding-safety-features-to-your-robot-code.html">Adding Safety Features to Your Robot Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/how-to-use-joystick-buttons-to-control-motors-or-solenoids.html">How to Use Joystick Buttons to Control Motors or Solenoids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/local-and-global-variables-in-labview-for-frc.html">Local and Global Variables in LabVIEW for FRC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../labview/resources/using-the-compressor-in-labview.html">Using the Compressor in LabVIEW</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../python/index.html">FRC Python Programming</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of FRC Python Programming</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/python-setup.html">Python Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-2/frc-game-tools.html">התקנת ה-FRC Game Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/pyproject_toml.html">pyproject.toml usage</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../python/subcommands/index.html">RobotPy subcommands</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" role="switch" type="checkbox"/><label for="toctree-checkbox-22"><div class="visually-hidden">Toggle navigation of RobotPy subcommands</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../python/subcommands/deploy.html">Deploy Python program to roboRIO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../hardware-apis/index.html">Hardware APIs</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" role="switch" type="checkbox"/><label for="toctree-checkbox-23"><div class="visually-hidden">Toggle navigation of Hardware APIs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../hardware-apis/motors/index.html">Motors APIs</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of Motors APIs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/motors/using-motor-controllers.html">Using Motor Controllers in Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/motors/pwm-controllers.html">PWM Motor Controllers in Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/motors/wpi-drive-classes.html">Using the WPILib Classes to Drive your Robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/motors/servos.html">Repeatable Low Power Movement - Controlling Servos with WPILib</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../hardware-apis/pneumatics/index.html">Pneumatics APIs</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" role="switch" type="checkbox"/><label for="toctree-checkbox-25"><div class="visually-hidden">Toggle navigation of Pneumatics APIs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/pneumatics/solenoids.html">Operating Pneumatic Cylinders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/pneumatics/pressure.html">Generating and Storing Pressure</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../hardware-apis/sensors/index.html">חיישנים</a><input class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" role="switch" type="checkbox"/><label for="toctree-checkbox-26"><div class="visually-hidden">Toggle navigation of חיישנים</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/sensor-overview-software.html">סקירת חיישנים - תוכנה</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/accelerometers-software.html">Accelerometers - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/gyros-software.html">Gyroscopes - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/ultrasonics-software.html">Ultrasonics - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/counters.html">Counters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/encoders-software.html">Encoders - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/analog-inputs-software.html">Analog Inputs - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/analog-potentiometers-software.html">Analog Potentiometers - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/digital-inputs-software.html">Digital Inputs - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/sensors/limit-switch.html">Programming Limit Switches</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../hardware-apis/misc/index.html">Miscellaneous Hardware APIs</a><input class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><div class="visually-hidden">Toggle navigation of Miscellaneous Hardware APIs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../hardware-apis/misc/addressable-leds.html">Addressable LEDs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../can-devices/index.html">מכשירי CAN</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><div class="visually-hidden">Toggle navigation of מכשירי CAN</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../can-devices/using-can-devices.html">Using CAN Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../can-devices/pneumatics-control-module.html">Pneumatics Control Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../can-devices/pneumatic-hub.html">Pneumatic Hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../can-devices/power-distribution-module.html">Power Distribution Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../can-devices/third-party-devices.html">Third-Party CAN Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../can-devices/can-addressing.html">ספציפיקציות מכשירי CAN בFRC</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../basic-programming/index.html">תכנות בסיסי</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><div class="visually-hidden">Toggle navigation of תכנות בסיסי</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/git-getting-started.html">מבוא ל-GIt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/cpp-units.html">The C++ Units Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/java-units.html">The Java Units Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/joystick.html">Joysticks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/coordinate-system.html">Coordinate System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/robot-preferences.html">Setting Robot Preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/using-test-mode.html">Using Test Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/reading-stacktraces.html">Reading Stacktraces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/functions-as-data.html">Treating Functions as Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/alliancecolor.html">Get Alliance Color</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../basic-programming/java-gc.html">Java Garbage Collection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../support/support-resources.html">משאבי תמיכה</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../frc-glossary.html">מילון מונחי FRC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">תיעוד ה-API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.wpilib.org/allwpilib/docs/release/java/index.html">תיעוד WPILib API ל-Java</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.wpilib.org/allwpilib/docs/release/cpp/index.html">תיעוד WPILib API ל-C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://robotpy.readthedocs.io/projects/robotpy/en/stable/">תיעוד WPILib Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">כלי תכנות</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../driverstation/index.html">Driver Station</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><div class="visually-hidden">Toggle navigation of Driver Station</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../driverstation/driver-station.html">FRC Driver Station Powered by NI LabVIEW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../driverstation/driver-station-best-practices.html">Driver Station Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../driverstation/driver-station-log-viewer.html">Driver Station Log File Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../driverstation/driver-station-errors-warnings.html">Driver Station Errors/Warnings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../driverstation/driver-station-timing-viewer.html">Driver Station Timing Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../driverstation/programming-radios-for-fms-offseason.html">Programming Radios for FMS Offseason</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../driverstation/manually-setting-the-driver-station-to-start-custom-dashboard.html">Manually Setting the Driver Station to Start Custom Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../wpilib-tools/robotbuilder/index.html">RobotBuilder</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" role="switch" type="checkbox"/><label for="toctree-checkbox-31"><div class="visually-hidden">Toggle navigation of RobotBuilder</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/index.html">RobotBuilder - Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" role="switch" type="checkbox"/><label for="toctree-checkbox-32"><div class="visually-hidden">Toggle navigation of RobotBuilder - Introduction</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/robotbuilder-overview.html">RobotBuilder Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/starting-robotbuilder.html">Starting RobotBuilder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/robotbuilder-interface.html">RobotBuilder User Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/robotbuilder-setup.html">Setting up the Robot Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/robotbuilder-creating-subsystem.html">Creating a Subsystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/robotbuilder-creating-command.html">Creating a Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/robotbuilder-autonomous-command.html">Setting the Autonomous Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/robotbuilder-testing-with-shuffleboard.html">Using Shuffleboard to Test a Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/robotbuilder-operator-interface-to-command.html">Connecting the Operator Interface to a Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/introduction/robotbuilder-created-code.html">RobotBuilder Created Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../wpilib-tools/robotbuilder/writing-code/index.html">RobotBuilder - Writing the Code</a><input class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><div class="visually-hidden">Toggle navigation of RobotBuilder - Writing the Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/writing-code/robotbuilder-generating-code.html">Generating Code for a Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/writing-code/robotbuilder-writing-subsystem-code.html">Writing the Code for a Subsystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/writing-code/robotbuilder-writing-command-code.html">Writing the Code for a Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/writing-code/robotbuilder-drive-tank.html">Driving the Robot with Tank Drive and Joysticks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../wpilib-tools/robotbuilder/advanced/index.html">RobotBuilder - Advanced</a><input class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><div class="visually-hidden">Toggle navigation of RobotBuilder - Advanced</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/advanced/robotbuilder-pidsubsystem-actuators.html">Using PIDSubsystem to Control Actuators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/advanced/robotbuilder-writing-pidsubsystem-code.html">Writing the Code for a PIDSubsystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/advanced/robotbuilder-setpoint-command.html">Setpoint Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robotbuilder/advanced/robotbuilder-custom-components.html">Adding Custom Components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../wpilib-tools/robot-simulation/index.html">סימולציית רובוט</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" role="switch" type="checkbox"/><label for="toctree-checkbox-35"><div class="visually-hidden">Toggle navigation of סימולציית רובוט</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../wpilib-tools/robot-simulation/introduction.html">Introduction to Robot Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wpilib-tools/robot-simulation/simulation-gui.html">Simulation Specific User Interface Elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dashboards/glass/widgets.html">Glass Widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dashboards/glass/command-based-widgets.html">Widgets for the Command-Based Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dashboards/glass/field2d-widget.html">The Field2d Widget</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dashboards/glass/plots.html">Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wpilib-tools/robot-simulation/physics-sim.html">Physics Simulation with WPILib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wpilib-tools/robot-simulation/device-sim.html">Device Simulation</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../wpilib-tools/robot-simulation/drivesim-tutorial/index.html">Drivetrain Simulation Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of Drivetrain Simulation Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robot-simulation/drivesim-tutorial/diffdrive-sim-overview.html">Drivetrain Simulation Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robot-simulation/drivesim-tutorial/simulation-instance.html">Step 1: Creating Simulated Instances of Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robot-simulation/drivesim-tutorial/drivetrain-model.html">Step 2: Creating a Drivetrain Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robot-simulation/drivesim-tutorial/updating-drivetrain-model.html">Step 3: Updating the Drivetrain Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wpilib-tools/robot-simulation/drivesim-tutorial/odometry-simgui.html">Step 4: Updating Odometry and Visualizing Robot Position</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../wpilib-tools/robot-simulation/unit-testing.html">Unit Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../wpilib-tools/outlineviewer/index.html">OutlineViewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wpilib-tools/roborio-team-number-setter/index.html">roboRIO Team Number Setter</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">תכנות מתקדם</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../vision-processing/index.html">עיבוד תמונה</a><input class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" role="switch" type="checkbox"/><label for="toctree-checkbox-37"><div class="visually-hidden">Toggle navigation of עיבוד תמונה</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../vision-processing/introduction/index.html">Vision Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" role="switch" type="checkbox"/><label for="toctree-checkbox-38"><div class="visually-hidden">Toggle navigation of Vision Introduction</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/introduction/what-is-vision.html">What is Vision?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/introduction/strategies-for-vision-programming.html">Strategies for Vision Programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/introduction/target-info-and-retroreflection.html">Target Info and Retroreflection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/introduction/identifying-and-processing-the-targets.html">Identifying and Processing the Targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/introduction/cameraserver-class.html">Read and Process Video: CameraServer Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/introduction/2017-vision-examples.html">2017 Vision Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../vision-processing/wpilibpi/index.html">Vision with WPILibPi</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" role="switch" type="checkbox"/><label for="toctree-checkbox-39"><div class="visually-hidden">Toggle navigation of Vision with WPILibPi</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/walkthrough-video.html">A Video Walkthrough of using WPILibPi with the Raspberry Pi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/using-a-coprocessor-for-vision-processing.html">Using a Coprocessor for vision processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/using-the-raspberry-pi-for-frc.html">Using the Raspberry Pi for FRC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/what-you-need-to-get-the-pi-image-running.html">What you need to get the Pi image running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/installing-the-image-to-your-microsd-card.html">Installing the image to your MicroSD card</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/the-raspberry-pi-frc-console.html">The Raspberry PI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/using-cameraserver.html">Using CameraServer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/image-thresholding.html">Thresholding an Image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/morphological-operations.html">Morphological Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/working-with-contours.html">Working with Contours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/wpilibpi/basic-vision-example.html">Basic Vision Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../vision-processing/apriltag/index.html">AprilTag Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><div class="visually-hidden">Toggle navigation of AprilTag Introduction</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/apriltag/apriltag-intro.html">What Are AprilTags?</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../vision-processing/roborio/index.html">Vision on the RoboRIO</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><div class="visually-hidden">Toggle navigation of Vision on the RoboRIO</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/roborio/using-the-cameraserver-on-the-roborio.html">Using the CameraServer on the roboRIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/roborio/using-multiple-cameras.html">Using Multiple Cameras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vision-processing/roborio/cameraserver-webserver.html">CameraServer Web Interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../commandbased/index.html">תכנות מבוסס פקודות</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" role="switch" type="checkbox"/><label for="toctree-checkbox-42"><div class="visually-hidden">Toggle navigation of תכנות מבוסס פקודות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/what-is-command-based.html">מהו ״תכנות מבוסס פקודות״?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/commands.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/command-compositions.html">Command Compositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/subsystems.html">מערכות</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/binding-commands-to-triggers.html">קישור Commands ל-Triggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/structuring-command-based-project.html">Structuring a Command-Based Robot Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/organizing-command-based.html">Organizing Command-Based Robot Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/command-scheduler.html">The Command Scheduler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/cpp-command-discussion.html">A Technical Discussion on C++ Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/pid-subsystems-commands.html">PID Control through PIDSubsystems and PIDCommands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/profile-subsystems-commands.html">Motion Profiling through TrapezoidProfileSubsystems and TrapezoidProfileCommands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../commandbased/profilepid-subsystems-commands.html">Combining Motion Profiling and PID in Command-Based</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../kinematics-and-odometry/index.html">קינמטיקה ואודומטריה</a><input class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" role="switch" type="checkbox"/><label for="toctree-checkbox-43"><div class="visually-hidden">Toggle navigation of קינמטיקה ואודומטריה</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../kinematics-and-odometry/intro-and-chassis-speeds.html">Introduction to Kinematics and The ChassisSpeeds Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kinematics-and-odometry/differential-drive-kinematics.html">Differential Drive Kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kinematics-and-odometry/differential-drive-odometry.html">Differential Drive Odometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kinematics-and-odometry/swerve-drive-kinematics.html">Swerve Drive Kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kinematics-and-odometry/swerve-drive-odometry.html">Swerve Drive Odometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kinematics-and-odometry/mecanum-drive-kinematics.html">Mecanum Drive Kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kinematics-and-odometry/mecanum-drive-odometry.html">Mecanum Drive Odometry</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../networktables/index.html">NetworkTables</a><input class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" role="switch" type="checkbox"/><label for="toctree-checkbox-44"><div class="visually-hidden">Toggle navigation of NetworkTables</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/networktables-intro.html">What is NetworkTables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/tables-and-topics.html">NetworkTables Tables and Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/publish-and-subscribe.html">Publishing and Subscribing to a Topic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/multiple-instances.html">NetworkTables Instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/networktables-networking.html">NetworkTables Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/listening-for-change.html">Listening for Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/robot-program.html">Writing a Simple NetworkTables Robot Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/client-side-program.html">Creating a Client-side Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/nt4-migration-guide.html">Migrating from NetworkTables 3.0 to NetworkTables 4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networktables/reading-array-values-published-by-networktables.html">Reading Array Values Published by NetworkTables</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../pathplanning/index.html">Path Planning</a><input class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" role="switch" type="checkbox"/><label for="toctree-checkbox-45"><div class="visually-hidden">Toggle navigation of Path Planning</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../pathplanning/trajectory-tutorial/index.html">Trajectory Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" role="switch" type="checkbox"/><label for="toctree-checkbox-46"><div class="visually-hidden">Toggle navigation of Trajectory Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/trajectory-tutorial/trajectory-tutorial-overview.html">Trajectory Tutorial Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/trajectory-tutorial/characterizing-drive.html">Step 1: Characterizing Your Robot Drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/trajectory-tutorial/entering-constants.html">Step 2: Entering the Calculated Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/trajectory-tutorial/creating-drive-subsystem.html">Step 3: Creating a Drive Subsystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/trajectory-tutorial/creating-following-trajectory.html">שלב 4: יצירה ומעקב אחרי מסלול</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../pathplanning/pathweaver/index.html">PathWeaver</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" role="switch" type="checkbox"/><label for="toctree-checkbox-47"><div class="visually-hidden">Toggle navigation of PathWeaver</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/pathweaver/introduction.html">Introduction to PathWeaver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/pathweaver/creating-pathweaver-project.html">Creating a Pathweaver Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/pathweaver/drawing-pathweaver-path.html">Visualizing PathWeaver Trajectories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/pathweaver/creating-autonomous-routines.html">Creating Autonomous Routines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/pathweaver/integrating-robot-program.html">Importing a PathWeaver JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pathplanning/pathweaver/adding-field-images.html">Adding field images to PathWeaver</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../roborio-info/index.html">roboRIO</a><input class="toctree-checkbox" id="toctree-checkbox-48" name="toctree-checkbox-48" role="switch" type="checkbox"/><label for="toctree-checkbox-48"><div class="visually-hidden">Toggle navigation of roboRIO</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../roborio-info/roborio-introduction.html">roboRIO Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-3/imaging-your-roborio.html">Imaging your roboRIO 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../zero-to-robot/step-3/roborio2-imaging.html">Imaging your roboRIO 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../roborio-info/roborio-web-dashboard.html">roboRIO Web Dashboard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../roborio-info/roborio-ftp.html">roboRIO FTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../roborio-info/roborio-ssh.html">roboRIO User Accounts and SSH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../roborio-info/roborio-brownouts.html">roboRIO Brownout and Understanding Current Draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../roborio-info/recovering-a-roborio-using-safe-mode.html">Recovering a roboRIO using Safe Mode</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://www.ni.com/en-us/innovations/white-papers/15/imaging-the-roborio-and-common-troubleshooting-techniques.html">עזרה נוספת</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../advanced-gradlerio/index.html">Advanced GradleRIO</a><input class="toctree-checkbox" id="toctree-checkbox-49" name="toctree-checkbox-49" role="switch" type="checkbox"/><label for="toctree-checkbox-49"><div class="visually-hidden">Toggle navigation of Advanced GradleRIO</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../advanced-gradlerio/external-libraries.html">Using External Libraries with Robot Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../advanced-gradlerio/robot-code-ci.html">Setting up CI for Robot Code using GitHub Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../advanced-gradlerio/code-formatting.html">Using a Code Formatter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../advanced-gradlerio/gradlew-tasks.html">Gradlew Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../advanced-gradlerio/deploy-git-data.html">Including Git Data in Deploy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../advanced-gradlerio/compiler-args.html">Using Compiler Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../advanced-gradlerio/profiling-with-visualvm.html">Profiling with VisualVM</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">בקרות מתקדמות</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" role="switch" type="checkbox"/><label for="toctree-checkbox-50"><div class="visually-hidden">Toggle navigation of בקרות מתקדמות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../video-walkthrough.html">A Video Walkthrough of Model Based Validation of Autonomous in FRC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../introduction/index.html">מבוא לבקרות מתקדמות</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" role="switch" type="checkbox"/><label for="toctree-checkbox-51"><div class="visually-hidden">Toggle navigation of מבוא לבקרות מתקדמות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/control-system-basics.html">Control System Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/picking-control-strategy.html">Picking a Control Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/introduction-to-feedforward.html">Introduction to DC Motor Feedforward</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/introduction-to-pid.html">מבוא ל-PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/pid-video.html">סרטון מבוא ל-PID מאת WPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/tutorial-intro.html">Introduction To Controls Tuning Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/tuning-flywheel.html">Tuning a Flywheel Velocity Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/tuning-turret.html">Tuning a Turret Position Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/tuning-vertical-arm.html">Tuning a Vertical Arm Position Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../introduction/common-control-issues.html">This translation is just for testing, Reviewer, please remove..</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../filters/index.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" role="switch" type="checkbox"/><label for="toctree-checkbox-52"><div class="visually-hidden">Toggle navigation of Filters</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../filters/introduction.html">מבוא לפילטרים</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filters/linear-filter.html">Linear Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filters/median-filter.html">Median Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filters/slew-rate-limiter.html">Slew Rate Limiter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../filters/debouncer.html">Debouncer</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../geometry/index.html">מחלקות גיאומטריה</a><input class="toctree-checkbox" id="toctree-checkbox-53" name="toctree-checkbox-53" role="switch" type="checkbox"/><label for="toctree-checkbox-53"><div class="visually-hidden">Toggle navigation of מחלקות גיאומטריה</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../geometry/pose.html">Translation, Rotation, and Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../geometry/transformations.html">Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../system-identification/index.html">System Identification</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" role="switch" type="checkbox"/><label for="toctree-checkbox-54"><div class="visually-hidden">Toggle navigation of System Identification</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../system-identification/introduction.html">Introduction to System Identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../system-identification/creating-routine.html">Creating an Identification Routine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../system-identification/running-routine.html">Running the Identification Routine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../system-identification/loading-data.html">Loading Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../system-identification/viewing-diagnostics.html">Viewing Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../system-identification/analyzing-gains.html">Analyzing Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../system-identification/additional-utils.html">Additional Utilities and Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../controllers/index.html">Controllers</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" role="switch" type="checkbox"/><label for="toctree-checkbox-55"><div class="visually-hidden">Toggle navigation of Controllers</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../controllers/pidcontroller.html">בקרת PID עם WPILib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../controllers/feedforward.html">Feedforward Control in WPILib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../controllers/combining-feedforward-feedback.html">Combining Feedforward and PID Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../controllers/trapezoidal-profiles.html">Trapezoidal Motion Profiles in WPILib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../controllers/profiled-pidcontroller.html">Combining Motion Profiling and PID Control with ProfiledPIDController</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../controllers/bang-bang.html">Bang-Bang Control with BangBangController</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../trajectories/index.html">יצירה ומעקב מסלולים עם WPILib</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" role="switch" type="checkbox"/><label for="toctree-checkbox-56"><div class="visually-hidden">Toggle navigation of יצירה ומעקב מסלולים עם WPILib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/trajectory-generation.html">Trajectory Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/constraints.html">Trajectory Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/manipulating-trajectories.html">Manipulating Trajectories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/transforming-trajectories.html">Transforming Trajectories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/ramsete.html">בקר Ramsete</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/holonomic.html">Holonomic Drive Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trajectories/troubleshooting.html">פתרון בעיות</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">State-Space and Model Based Control with WPILib</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" role="switch" type="checkbox"/><label for="toctree-checkbox-57"><div class="visually-hidden">Toggle navigation of State-Space and Model Based Control with WPILib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="state-space-intro.html">מבוא לבקרת State-Space</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">State-Space Controller Walkthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="state-space-observers.html">State Observers and Kalman Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="state-space-pose-estimators.html">Pose Estimators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="state-space-debugging.html">Debugging State-Space Models and Controllers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../controls-glossary.html">Controls Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../convenience-features/index.html">Convenience Features</a><input class="toctree-checkbox" id="toctree-checkbox-58" name="toctree-checkbox-58" role="switch" type="checkbox"/><label for="toctree-checkbox-58"><div class="visually-hidden">Toggle navigation of Convenience Features</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../convenience-features/scheduling-functions.html">Scheduling Functions at Custom Frequencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../convenience-features/event-based.html">Event-Based Programming With EventLoop</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">דוגמאות ומדריכים</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples-tutorials/wpilib-examples.html">WPILib Example Projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples-tutorials/third-party-examples.html">Third Party Example Projects</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">חומרה</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../hardware/hardware-basics/index.html">חומרה - יסודות</a><input class="toctree-checkbox" id="toctree-checkbox-59" name="toctree-checkbox-59" role="switch" type="checkbox"/><label for="toctree-checkbox-59"><div class="visually-hidden">Toggle navigation of חומרה - יסודות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../controls-overviews/control-system-hardware.html">סקירת רכיבי חומרה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-basics/wiring-best-practices.html">Wiring Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-basics/can-wiring-basics.html">CAN Wiring Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-basics/wiring-pneumatics-pcm.html">Wiring Pneumatics - CTRE Pneumatic Control Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-basics/wiring-pneumatics-ph.html">Wiring Pneumatics - REV Pneumatic Hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-basics/status-lights-ref.html">הסבר קצר על Status Light</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-basics/preemptive-troubleshooting.html">Robot Preemptive Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-basics/robot-battery.html">Robot Battery Basics</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../hardware/hardware-tutorials/index.html">מדריכי חומרה</a><input class="toctree-checkbox" id="toctree-checkbox-60" name="toctree-checkbox-60" role="switch" type="checkbox"/><label for="toctree-checkbox-60"><div class="visually-hidden">Toggle navigation of מדריכי חומרה</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-tutorials/motors.html">מנועים ליישומים ברובוטיקה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-tutorials/sensors.html">חיישנים</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-tutorials/pneumatics.html">פניאומטיקה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/hardware-tutorials/transmissions.html">המרות כוח</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../hardware/sensors/index.html">חיישנים</a><input class="toctree-checkbox" id="toctree-checkbox-61" name="toctree-checkbox-61" role="switch" type="checkbox"/><label for="toctree-checkbox-61"><div class="visually-hidden">Toggle navigation of חיישנים</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/sensor-overview-hardware.html">Sensor Overview - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/analog-inputs-hardware.html">קלט אנלוגי - חומרה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/analog-potentiometers-hardware.html">Analog Potentiometers - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/digital-inputs-hardware.html">Digital Inputs - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/proximity-switches.html">Proximity Switches - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/encoders-hardware.html">אנקודרים - חומרה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/gyros-hardware.html">Gyroscopes - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/ultrasonics-hardware.html">Ultrasonics - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/accelerometers-hardware.html">Accelerometers - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/lidar.html">LIDAR - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/triangulating-rangefinders.html">מדי טווח שפועלים בשיטת הטריאנגולציה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hardware/sensors/serial-buses.html">Serial Buses</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">תמיכה ב-Romi וב-XRP</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../romi-robot/index.html">תחילת העבודה עם Romi</a><input class="toctree-checkbox" id="toctree-checkbox-62" name="toctree-checkbox-62" role="switch" type="checkbox"/><label for="toctree-checkbox-62"><div class="visually-hidden">Toggle navigation of תחילת העבודה עם Romi</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../romi-robot/hardware.html">חומרה והרכבה של Romi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../romi-robot/imaging-romi.html">צריבת ה-Romi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../romi-robot/getting-to-know-romi.html">Getting to know your Romi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../romi-robot/hardware-support.html">Romi Hardware Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../romi-robot/web-ui.html">The Romi Web UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../romi-robot/programming-romi.html">Programming the Romi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../romi-robot/programming-romi-in-labview.html">Programming the Romi (LabVIEW)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../xrp-robot/index.html">Getting Started with XRP</a><input class="toctree-checkbox" id="toctree-checkbox-63" name="toctree-checkbox-63" role="switch" type="checkbox"/><label for="toctree-checkbox-63"><div class="visually-hidden">Toggle navigation of Getting Started with XRP</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../xrp-robot/hardware-and-imaging.html">XRP Hardware, Assembly and Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../xrp-robot/getting-to-know-xrp.html">Getting to know your XRP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../xrp-robot/hardware-support.html">XRP Hardware Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../xrp-robot/web-ui.html">The XRP Web UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../xrp-robot/programming-xrp.html">Programming the XRP</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">רשתות רובוט </span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../networking/networking-introduction/index.html">מבוא לרשתות</a><input class="toctree-checkbox" id="toctree-checkbox-64" name="toctree-checkbox-64" role="switch" type="checkbox"/><label for="toctree-checkbox-64"><div class="visually-hidden">Toggle navigation of מבוא לרשתות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../networking/networking-introduction/networking-basics.html">יסודות הרשתות</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../networking/networking-introduction/ip-configurations.html">קונפיגורציות IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../networking/networking-introduction/roborio-network-troubleshooting.html">roboRIO Network Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../networking/networking-introduction/windows-firewall-configuration.html">Windows Firewall Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../networking/networking-introduction/measuring-bandwidth-usage.html">Measuring Bandwidth Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../networking/networking-introduction/om5p-ac-radio-modification.html">OM5P-AC Radio Modification</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../networking/networking-utilities/index.html">כלי רשתות</a><input class="toctree-checkbox" id="toctree-checkbox-65" name="toctree-checkbox-65" role="switch" type="checkbox"/><label for="toctree-checkbox-65"><div class="visually-hidden">Toggle navigation of כלי רשתות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../networking/networking-utilities/portforwarding.html">Port Forwarding</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">תרומה </span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../contributing/frc-docs/index.html">תרומה ל-frc-docs</a><input class="toctree-checkbox" id="toctree-checkbox-66" name="toctree-checkbox-66" role="switch" type="checkbox"/><label for="toctree-checkbox-66"><div class="visually-hidden">Toggle navigation of תרומה ל-frc-docs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing/frc-docs/contribution-guidelines.html">הנחיות תרומה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing/frc-docs/style-guide.html">הנחיות סגנון</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing/frc-docs/build-instructions.html">הנחיות בנייה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing/frc-docs/drawio-saving-instructions.html">הנחיות שמירת Draw.io</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing/frc-docs/translations.html">תרגומים</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing/frc-docs/top-translators.html">מתרגמים מובילים</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../contributing/wpilib/index.html">פיתוח עם allwpilib</a><input class="toctree-checkbox" id="toctree-checkbox-67" name="toctree-checkbox-67" role="switch" type="checkbox"/><label for="toctree-checkbox-67"><div class="visually-hidden">Toggle navigation of פיתוח עם allwpilib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib">סקירה כללית</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/styleguide/blob/main/README.md">הנחיות סגנון ו-wpiformat</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/README-CMAKE.md">בנייה עם CMake</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/DevelopmentBuilds.md">שימוש בגרסאות בפיתוח</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/MavenArtifacts.md">Maven Artifacts</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/CONTRIBUTING.md">הנחיות לתורמים</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/ntcore/doc/networktables4.adoc">NetworkTables 4 Protocol Spec</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/ntcore/doc/networktables3.adoc">מפרט פרוטוקול 3 של NetworkTables</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">בעיות </span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/wpilibsuite/frc-docs/issues">דיוח על בעיה</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="state-space-controller-walkthrough">
+<h1>State-Space Controller Walkthrough<a class="headerlink" href="#state-space-controller-walkthrough" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>Before following this tutorial, readers are recommended to have read an <a class="reference internal" href="state-space-intro.html#introduction-to-state-space-control"><span class="std std-ref">מבוא לבקרת State-Space</span></a>.</p>
+</div>
+<p>The goal of this tutorial is to provide ”end-to-end“ instructions on implementing a state-space controller for a flywheel.  By following this tutorial, readers will learn how to:</p>
+<ol class="arabic simple">
+<li><p>Create an accurate state-space model of a flywheel using <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-system-identification"><span class="xref std std-term">system identification</span></a> or <a class="hxr-hoverxref hxr-tooltip reference internal" href="../../frc-glossary.html#term-CAD"><span class="xref std std-term">CAD</span></a> software.</p></li>
+<li><p>Implement a Kalman Filter to filter encoder velocity measurements without lag.</p></li>
+<li><p>Implement a <a class="reference internal" href="state-space-intro.html#the-linear-quadratic-regulator"><span class="std std-ref">LQR</span></a> feedback controller which, when combined with model-based feedforward, will generate voltage <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-input"><span class="xref std std-term">inputs</span></a> to drive the flywheel to a <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-reference"><span class="xref std std-term">reference</span></a>.</p></li>
+</ol>
+<p>This tutorial is intended to be approachable for teams without a great deal of programming expertise.  While the WPILib library offers significant flexibility in the manner in which its state-space control features are implemented, closely following the implementation outlined in this tutorial should provide teams with a basic structure which can be reused for a variety of state-space systems.</p>
+<p>The full example is available in the state-space flywheel (<a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/statespaceflywheel/Robot.java">Java</a>/<a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/wpilibcExamples/src/main/cpp/examples/StateSpaceFlywheel/cpp/Robot.cpp">C++</a>/<a class="reference external" href="https://github.com/robotpy/examples/blob/main/StateSpaceFlywheel/robot.py">Python</a>) and state-space flywheel system identification (<a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/statespaceflywheelsysid/Robot.java">Java</a>/<a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/wpilibcExamples/src/main/cpp/examples/StateSpaceFlywheelSysId/cpp/Robot.cpp">C++</a>/<a class="reference external" href="https://github.com/robotpy/examples/blob/main/StateSpaceFlywheelSysId/robot.py">Python</a>) example projects.</p>
+<section id="why-use-state-space-control">
+<h2>Why Use State-Space Control?<a class="headerlink" href="#why-use-state-space-control" title="Link to this heading">#</a></h2>
+<p>Because state-space control focuses on creating an accurate model of our system, we can accurately predict how our <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-model"><span class="xref std std-term">model</span></a> will respond to control <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-input"><span class="xref std std-term">inputs</span></a>. This allows us to simulate our mechanisms without access to a physical robot, as well as easily choose <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-gain"><span class="xref std std-term">gains</span></a> that we know will work well. Having a model also allows us to create lagless filters, such as Kalman Filters, to optimally filter sensor readings.</p>
+</section>
+<section id="modeling-our-flywheel">
+<h2>Modeling Our Flywheel<a class="headerlink" href="#modeling-our-flywheel" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="state-space-intro.html#what-is-state-space-notation"><span class="std std-ref">Recall</span></a> that continuous state-space systems are modeled using the following system of equations:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{\mathbf{x}} &amp;= \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u} \\
+\mathbf{y} &amp;= \mathbf{C}\mathbf{x} + \mathbf{D}\mathbf{u}\end{split}\]</div>
+</div>
+<p>Where <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-x-dot"><span class="xref std std-term">x-dot</span></a> is the rate of change of the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-system"><span class="xref std std-term">system</span></a>’s <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-state"><span class="xref std std-term">state</span></a>, <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is the system’s current state, <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> is the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-input"><span class="xref std std-term">input</span></a> to the system, and <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> is the system’s <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-output"><span class="xref std std-term">output</span></a>.</p>
+<p>Let’s use this system of equations to model our flywheel in two different ways. We’ll first model it using <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-system-identification"><span class="xref std std-term">system identification</span></a> using the SysId toolsuite, and then model it based on the motor and flywheel’s <a class="hxr-hoverxref hxr-tooltip reference internal" href="../../frc-glossary.html#term-moment-of-inertia"><span class="xref std std-term">moment of inertia</span></a>.</p>
+<p>The first step of building up our state-space system is picking our system’s states. We can pick anything we want as a state – we could pick completely unrelated states if we wanted – but it helps to pick states that are important. We can include <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-hidden-state"><span class="xref std std-term">hidden states</span></a> in our state (such as elevator velocity if we were only able to measure its position) and let our Kalman Filter estimate their values. Remember that the states we choose will be driven towards their respective <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-reference"><span class="xref std std-term">references</span></a> by the feedback controller (typically the <a class="reference internal" href="state-space-intro.html#the-linear-quadratic-regulator"><span class="std std-ref">Linear-Quadratic Regulator</span></a> since it’s optimal).</p>
+<p>For our flywheel, we care only about one state: its velocity. While we could chose to also model its acceleration, the inclusion of this state isn’t necessary for our system.</p>
+<p>Next, we identify the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-input"><span class="xref std std-term">inputs</span></a> to our system. Inputs can be thought of as things we can put ”into“ our system to change its state. In the case of the flywheel (and many other single-jointed mechanisms in FRC®), we have just one input: voltage applied to the motor. By choosing voltage as our input (over something like motor duty cycle), we can compensate for battery voltage sag as battery load increases.</p>
+<p>A continuous-time state-space system writes <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-x-dot"><span class="xref std std-term">x-dot</span></a>, or the instantaneous rate of change of the system’s <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-system"><span class="xref std std-term">system</span></a>'s state, as proportional to the current <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-state"><span class="xref std std-term">state</span></a> and <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-input"><span class="xref std std-term">inputs</span></a>. Because our state is angular velocity, <span class="math notranslate nohighlight">\(\mathbf{\dot{x}}\)</span> will be the flywheel’s angular acceleration.</p>
+<p>Next, we will model our flywheel as a continuous-time state-space system. WPILib’s <code class="docutils literal notranslate"><span class="pre">LinearSystem</span></code> will convert this to discrete-time internally. Review <a class="reference internal" href="state-space-intro.html#what-is-state-space-notation"><span class="std std-ref">state-space notation</span></a> for more on continuous-time and discrete-time systems.</p>
+<section id="modeling-with-system-identification">
+<h3>Modeling with System Identification<a class="headerlink" href="#modeling-with-system-identification" title="Link to this heading">#</a></h3>
+<p>To rewrite this in state-space notation using <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-system-identification"><span class="xref std std-term">system identification</span></a>, we recall from the flywheel <a class="reference internal" href="state-space-intro.html#state-space-notation-example-flywheel-from-kv-and-ka"><span class="std std-ref">state-space notation example</span></a>, where we rewrote the following equation in terms of <span class="math notranslate nohighlight">\(\mathbf{a}\)</span>.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}V = kV \cdot \mathbf{v} + kA \cdot \mathbf{a}\\
+\mathbf{a} = \mathbf{\dot{v}} = \begin{bmatrix}\frac{-kV}{kA}\end{bmatrix} v + \begin{bmatrix}\frac{1}{kA}\end{bmatrix} V\end{split}\]</div>
+</div>
+<p>Where <span class="math notranslate nohighlight">\(\mathbf{v}\)</span> is flywheel velocity, <span class="math notranslate nohighlight">\(\mathbf{a}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{\dot{v}}\)</span> are flywheel acceleration, and <span class="math notranslate nohighlight">\(V\)</span> is voltage. Rewriting this with the standard convention of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> for the state vector and <span class="math notranslate nohighlight">\(\mathbf{u}\)</span> for the input vector, we find:</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\mathbf{\dot{x}} = \begin{bmatrix}\frac{-kV}{kA} \end{bmatrix} \mathbf{x} + \begin{bmatrix}\frac{1}{kA} \end{bmatrix} \mathbf{u}\]</div>
+</div>
+<p>The second part of state-space notation relates the system’s current <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-state"><span class="xref std std-term">state</span></a> and <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-input"><span class="xref std std-term">inputs</span></a> to the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-output"><span class="xref std std-term">output</span></a>. In the case of a flywheel, our output vector <span class="math notranslate nohighlight">\(\mathbf{y}\)</span> (or things that our sensors can measure) is our flywheel’s velocity, which also happens to be an element of our <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-state"><span class="xref std std-term">state</span></a> vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. Therefore, our output matrix is <span class="math notranslate nohighlight">\(\mathbf{C} = \begin{bmatrix}1 \end{bmatrix}\)</span>, and our system feedthrough matrix is <span class="math notranslate nohighlight">\(\mathbf{D} = \begin{bmatrix}0 \end{bmatrix}\)</span>. Writing this out in continuous-time state-space notation yields the following.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{\dot{x}} &amp;= \begin{bmatrix}\frac{-kV}{kA} \end{bmatrix} \mathbf{x} + \begin{bmatrix}\frac{1}{kA} \end{bmatrix} \mathbf{u} \\
+\mathbf{y} &amp;= \begin{bmatrix}1\end{bmatrix} \mathbf{x} + \begin{bmatrix}0\end{bmatrix} \mathbf{u}\end{split}\]</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">LinearSystem</span></code> class contains methods for easily creating state-space systems identified using <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-system-identification"><span class="xref std std-term">system identification</span></a>. This example shows a flywheel model with a kV of 0.023 and a kA of 0.001:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" data-sync-id="java" for="sd-tab-item-0">
+Java</label><div class="sd-tab-content docutils">
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="linenos">33</span><span class="w">  </span><span class="c1">// Volts per (radian per second)</span>
+<span class="linenos">34</span><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">kFlywheelKv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.023</span><span class="p">;</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="w">  </span><span class="c1">// Volts per (radian per second squared)</span>
+<span class="linenos">37</span><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">kFlywheelKa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.001</span><span class="p">;</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="w">  </span><span class="c1">// The plant holds a state-space model of our flywheel. This system has the following properties:</span>
+<span class="linenos">40</span><span class="w">  </span><span class="c1">//</span>
+<span class="linenos">41</span><span class="w">  </span><span class="c1">// States: [velocity], in radians per second.</span>
+<span class="linenos">42</span><span class="w">  </span><span class="c1">// Inputs (what we can &quot;put in&quot;): [voltage], in volts.</span>
+<span class="linenos">43</span><span class="w">  </span><span class="c1">// Outputs (what we can measure): [velocity], in radians per second.</span>
+<span class="linenos">44</span><span class="w">  </span><span class="c1">//</span>
+<span class="linenos">45</span><span class="w">  </span><span class="c1">// The Kv and Ka constants are found using the FRC Characterization toolsuite.</span>
+<span class="linenos">46</span><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">LinearSystem</span><span class="o">&lt;</span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_flywheelPlant</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">47</span><span class="w">      </span><span class="n">LinearSystemId</span><span class="p">.</span><span class="na">identifyVelocitySystem</span><span class="p">(</span><span class="n">kFlywheelKv</span><span class="p">,</span><span class="w"> </span><span class="n">kFlywheelKa</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" data-sync-id="c++" for="sd-tab-item-1">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">17</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/system/plant/LinearSystemId.h&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">30</span><span class="w">  </span><span class="c1">// Volts per (radian per second)</span>
+<span class="linenos">31</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">kFlywheelKv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.023</span><span class="n">_V</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1</span><span class="n">_rad_per_s</span><span class="p">;</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="w">  </span><span class="c1">// Volts per (radian per second squared)</span>
+<span class="linenos">34</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">kFlywheelKa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.001</span><span class="n">_V</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1</span><span class="n">_rad_per_s_sq</span><span class="p">;</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="w">  </span><span class="c1">// The plant holds a state-space model of our flywheel. This system has the</span>
+<span class="linenos">37</span><span class="w">  </span><span class="c1">// following properties:</span>
+<span class="linenos">38</span><span class="w">  </span><span class="c1">//</span>
+<span class="linenos">39</span><span class="w">  </span><span class="c1">// States: [velocity], in radians per second.</span>
+<span class="linenos">40</span><span class="w">  </span><span class="c1">// Inputs (what we can &quot;put in&quot;): [voltage], in volts.</span>
+<span class="linenos">41</span><span class="w">  </span><span class="c1">// Outputs (what we can measure): [velocity], in radians per second.</span>
+<span class="linenos">42</span><span class="w">  </span><span class="c1">//</span>
+<span class="linenos">43</span><span class="w">  </span><span class="c1">// The Kv and Ka constants are found using the FRC Characterization toolsuite.</span>
+<span class="linenos">44</span><span class="w">  </span><span class="n">frc</span><span class="o">::</span><span class="n">LinearSystem</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_flywheelPlant</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">45</span><span class="w">      </span><span class="n">frc</span><span class="o">::</span><span class="n">LinearSystemId</span><span class="o">::</span><span class="n">IdentifyVelocitySystem</span><span class="o">&lt;</span><span class="n">units</span><span class="o">::</span><span class="n">radian</span><span class="o">&gt;</span><span class="p">(</span><span class="n">kFlywheelKv</span><span class="p">,</span>
+<span class="linenos">46</span><span class="w">                                                                 </span><span class="n">kFlywheelKa</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-2">
+Python</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">23</span><span class="c1"># Volts per (radian per second)</span>
+<span class="linenos">24</span><span class="n">kFlywheelKv</span> <span class="o">=</span> <span class="mf">0.023</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="c1"># Volts per (radian per second squared)</span>
+<span class="linenos">27</span><span class="n">kFlywheelKa</span> <span class="o">=</span> <span class="mf">0.001</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">37</span>        <span class="c1"># The plant holds a state-space model of our flywheel. This system has the following properties:</span>
+<span class="linenos">38</span>        <span class="c1">#</span>
+<span class="linenos">39</span>        <span class="c1"># States: [velocity], in radians per second.</span>
+<span class="linenos">40</span>        <span class="c1"># Inputs (what we can &quot;put in&quot;): [voltage], in volts.</span>
+<span class="linenos">41</span>        <span class="c1"># Outputs (what we can measure): [velocity], in radians per second.</span>
+<span class="linenos">42</span>        <span class="c1">#</span>
+<span class="linenos">43</span>        <span class="c1"># The Kv and Ka constants are found using the FRC Characterization toolsuite.</span>
+<span class="linenos">44</span>        <span class="bp">self</span><span class="o">.</span><span class="n">flywheelPlant</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos">45</span>            <span class="n">wpimath</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">plant</span><span class="o">.</span><span class="n">LinearSystemId</span><span class="o">.</span><span class="n">identifyVelocitySystemRadians</span><span class="p">(</span>
+<span class="linenos">46</span>                <span class="n">kFlywheelKv</span><span class="p">,</span> <span class="n">kFlywheelKa</span>
+<span class="linenos">47</span>            <span class="p">)</span>
+<span class="linenos">48</span>        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="modeling-using-flywheel-moment-of-inertia-and-gearing">
+<h3>Modeling Using Flywheel Moment of Inertia and Gearing<a class="headerlink" href="#modeling-using-flywheel-moment-of-inertia-and-gearing" title="Link to this heading">#</a></h3>
+<p>A flywheel can also be modeled without access to a physical robot, using information about the motors, gearing and flywheel’s <a class="hxr-hoverxref hxr-tooltip reference internal" href="../../frc-glossary.html#term-moment-of-inertia"><span class="xref std std-term">moment of inertia</span></a>. A full derivation of this model is presented in Section 12.3 of  <a class="reference external" href="https://file.tavsys.net/control/controls-engineering-in-frc.pdf">Controls Engineering in FRC</a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">LinearSystem</span></code> class contains methods to easily create a model of a flywheel from the flywheel’s motors, gearing and <a class="hxr-hoverxref hxr-tooltip reference internal" href="../../frc-glossary.html#term-moment-of-inertia"><span class="xref std std-term">moment of inertia</span></a>. The moment of inertia can be calculated using <a class="hxr-hoverxref hxr-tooltip reference internal" href="../../frc-glossary.html#term-CAD"><span class="xref std std-term">CAD</span></a> software or using physics. The examples used here are detailed in the flywheel example project (<a class="reference external" href="https://github.com/wpilibsuite/allwpilib/tree/v2023.2.1/wpilibjExamples/src/main/java/edu/wpi/first/wpilibj/examples/statespaceflywheel">Java</a>/<a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/v2023.2.1/wpilibcExamples/src/main/cpp/examples/StateSpaceFlywheel/cpp/Robot.cpp">C++</a>/<a class="reference external" href="https://github.com/robotpy/examples/blob/main/StateSpaceFlywheel/robot.py">Python</a>).</p>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>For WPILib’s state-space classes, gearing is written as output over input – that is, if the flywheel spins slower than the motors, this number should be greater than one.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>The C++ LinearSystem class uses <a class="reference internal" href="../../basic-programming/cpp-units.html#the-c-units-library"><span class="std std-ref">the C++ Units Library</span></a> to prevent unit mixups and assert dimensionality.</p>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" data-sync-id="java" for="sd-tab-item-3">
+Java</label><div class="sd-tab-content docutils">
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="linenos">33</span><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">kFlywheelMomentOfInertia</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.00032</span><span class="p">;</span><span class="w"> </span><span class="c1">// kg * m^2</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span><span class="w">  </span><span class="c1">// Reduction between motors and encoder, as output over input. If the flywheel spins slower than</span>
+<span class="linenos">36</span><span class="w">  </span><span class="c1">// the motors, this number should be greater than one.</span>
+<span class="linenos">37</span><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">kFlywheelGearing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="w">  </span><span class="c1">// The plant holds a state-space model of our flywheel. This system has the following properties:</span>
+<span class="linenos">40</span><span class="w">  </span><span class="c1">//</span>
+<span class="linenos">41</span><span class="w">  </span><span class="c1">// States: [velocity], in radians per second.</span>
+<span class="linenos">42</span><span class="w">  </span><span class="c1">// Inputs (what we can &quot;put in&quot;): [voltage], in volts.</span>
+<span class="linenos">43</span><span class="w">  </span><span class="c1">// Outputs (what we can measure): [velocity], in radians per second.</span>
+<span class="linenos">44</span><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">LinearSystem</span><span class="o">&lt;</span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_flywheelPlant</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">45</span><span class="w">      </span><span class="n">LinearSystemId</span><span class="p">.</span><span class="na">createFlywheelSystem</span><span class="p">(</span>
+<span class="linenos">46</span><span class="w">          </span><span class="n">DCMotor</span><span class="p">.</span><span class="na">getNEO</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">kFlywheelMomentOfInertia</span><span class="p">,</span><span class="w"> </span><span class="n">kFlywheelGearing</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" data-sync-id="c++" for="sd-tab-item-4">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">17</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/system/plant/LinearSystemId.h&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">31</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/system/plant/LinearSystemId.h&gt;</span>
+<span class="linenos">32</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="n">units</span><span class="o">::</span><span class="n">kilogram_square_meter_t</span><span class="w"> </span><span class="n">kFlywheelMomentOfInertia</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">33</span><span class="w">      </span><span class="mf">0.00032</span><span class="n">_kg_sq_m</span><span class="p">;</span>
+<span class="linenos">34</span>
+<span class="linenos">35</span><span class="w">  </span><span class="c1">// Reduction between motors and encoder, as output over input. If the flywheel</span>
+<span class="linenos">36</span><span class="w">  </span><span class="c1">// spins slower than the motors, this number should be greater than one.</span>
+<span class="linenos">37</span><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">kFlywheelGearing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="w">  </span><span class="c1">// The plant holds a state-space model of our flywheel. This system has the</span>
+<span class="linenos">40</span><span class="w">  </span><span class="c1">// following properties:</span>
+<span class="linenos">41</span><span class="w">  </span><span class="c1">//</span>
+<span class="linenos">42</span><span class="w">  </span><span class="c1">// States: [velocity], in radians per second.</span>
+<span class="linenos">43</span><span class="w">  </span><span class="c1">// Inputs (what we can &quot;put in&quot;): [voltage], in volts.</span>
+<span class="linenos">44</span><span class="w">  </span><span class="c1">// Outputs (what we can measure): [velocity], in radians per second.</span>
+<span class="linenos">45</span><span class="w">  </span><span class="n">frc</span><span class="o">::</span><span class="n">LinearSystem</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_flywheelPlant</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">46</span><span class="w">      </span><span class="n">frc</span><span class="o">::</span><span class="n">LinearSystemId</span><span class="o">::</span><span class="n">FlywheelSystem</span><span class="p">(</span>
+<span class="linenos">47</span><span class="w">          </span><span class="n">frc</span><span class="o">::</span><span class="n">DCMotor</span><span class="o">::</span><span class="n">NEO</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">kFlywheelMomentOfInertia</span><span class="p">,</span><span class="w"> </span><span class="n">kFlywheelGearing</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" data-sync-id="python" for="sd-tab-item-5">
+Python</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">21</span><span class="n">kFlywheelMomentOfInertia</span> <span class="o">=</span> <span class="mf">0.00032</span>  <span class="c1"># kg/m^2</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="c1"># Reduction between motors and encoder, as output over input. If the flywheel spins slower than</span>
+<span class="linenos">24</span><span class="c1"># the motors, this number should be greater than one.</span>
+<span class="linenos">25</span><span class="n">kFlywheelGearing</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">37</span>        <span class="c1"># The plant holds a state-space model of our flywheel. This system has the following properties:</span>
+<span class="linenos">38</span>        <span class="c1">#</span>
+<span class="linenos">39</span>        <span class="c1"># States: [velocity], in radians per second.</span>
+<span class="linenos">40</span>        <span class="c1"># Inputs (what we can &quot;put in&quot;): [voltage], in volts.</span>
+<span class="linenos">41</span>        <span class="c1"># Outputs (what we can measure): [velocity], in radians per second.</span>
+<span class="linenos">42</span>        <span class="bp">self</span><span class="o">.</span><span class="n">flywheelPlant</span> <span class="o">=</span> <span class="n">wpimath</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">plant</span><span class="o">.</span><span class="n">LinearSystemId</span><span class="o">.</span><span class="n">flywheelSystem</span><span class="p">(</span>
+<span class="linenos">43</span>            <span class="n">wpimath</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">plant</span><span class="o">.</span><span class="n">DCMotor</span><span class="o">.</span><span class="n">NEO</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+<span class="linenos">44</span>            <span class="n">kFlywheelMomentOfInertia</span><span class="p">,</span>
+<span class="linenos">45</span>            <span class="n">kFlywheelGearing</span><span class="p">,</span>
+<span class="linenos">46</span>        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="kalman-filters-observing-flywheel-state">
+<h2>Kalman Filters: Observing Flywheel State<a class="headerlink" href="#kalman-filters-observing-flywheel-state" title="Link to this heading">#</a></h2>
+<p>Kalman filters are used to filter our velocity measurements using our state-space model to generate a state estimate <span class="math notranslate nohighlight">\(\mathbf{\hat{x}}\)</span>. As our flywheel model is linear, we can use a Kalman filter to estimate the flywheel’s velocity. WPILib’s Kalman filter takes a <code class="docutils literal notranslate"><span class="pre">LinearSystem</span></code> (which we found above), along with standard deviations of model and sensor measurements. We can adjust how ”smooth“ our state estimate is by adjusting these weights. Larger state standard deviations will cause the filter to ”distrust“ our state estimate and favor new measurements more highly, while larger measurement standard deviations will do the opposite.</p>
+<p>In the case of a flywheel we start with a state standard deviation of 3 rad/s and a measurement standard deviation of 0.01 rad/s. These values are up to the user to choose – these weights produced a filter that was tolerant to some noise but whose state estimate quickly reacted to external disturbances for <em>a</em> flywheel – and should be tuned to create a filter that behaves well for your specific flywheel. Graphing states, measurements, inputs, references, and outputs over time is a great visual way to tune Kalman filters.</p>
+<img alt="The effect of a Kalman, median, and IIR filters on some flywheel data." src="../../../../_images/filter_comparison.png" />
+<p>The above graph shows two differently tuned Kalman filters, as well as a <a class="reference internal" href="../filters/linear-filter.html#linear-filters"><span class="std std-ref">single-pole IIR filter</span></a> and a <a class="reference internal" href="../filters/median-filter.html#median-filter"><span class="std std-ref">Median Filter</span></a>. This data was collected with a shooter over ~5 seconds, and four balls were run through the shooter (as seen in the four dips in velocity). While there are no hard rules on choosing good state and measurement standard deviations, they should in general be tuned to trust the model enough to reject noise while reacting quickly to external disturbances.</p>
+<p>Because the feedback controller computes error using the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-x-hat"><span class="xref std std-term">x-hat</span></a> estimated by the Kalman filter, the controller will react to disturbances only as quickly the filter’s state estimate changes. In the above chart, the upper left plot (with a state standard deviation of 3.0 and measurement standard deviation of 0.2) produced a filter that reacted quickly to disturbances while rejecting noise, while the upper right plot shows a filter that was barely affected by the velocity dips.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" data-sync-id="java" for="sd-tab-item-6">
+Java</label><div class="sd-tab-content docutils">
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="linenos">48</span><span class="w">  </span><span class="c1">// The observer fuses our encoder data and voltage inputs to reject noise.</span>
+<span class="linenos">49</span><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">KalmanFilter</span><span class="o">&lt;</span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_observer</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">50</span><span class="w">      </span><span class="k">new</span><span class="w"> </span><span class="n">KalmanFilter</span><span class="o">&lt;&gt;</span><span class="p">(</span>
+<span class="linenos">51</span><span class="w">          </span><span class="n">Nat</span><span class="p">.</span><span class="na">N1</span><span class="p">(),</span>
+<span class="linenos">52</span><span class="w">          </span><span class="n">Nat</span><span class="p">.</span><span class="na">N1</span><span class="p">(),</span>
+<span class="linenos">53</span><span class="w">          </span><span class="n">m_flywheelPlant</span><span class="p">,</span>
+<span class="linenos">54</span><span class="w">          </span><span class="n">VecBuilder</span><span class="p">.</span><span class="na">fill</span><span class="p">(</span><span class="mf">3.0</span><span class="p">),</span><span class="w"> </span><span class="c1">// How accurate we think our model is</span>
+<span class="linenos">55</span><span class="w">          </span><span class="n">VecBuilder</span><span class="p">.</span><span class="na">fill</span><span class="p">(</span><span class="mf">0.01</span><span class="p">),</span><span class="w"> </span><span class="c1">// How accurate we think our encoder</span>
+<span class="linenos">56</span><span class="w">          </span><span class="c1">// data is</span>
+<span class="linenos">57</span><span class="w">          </span><span class="mf">0.020</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" data-sync-id="c++" for="sd-tab-item-7">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">13</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/estimator/KalmanFilter.h&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">48</span><span class="w">  </span><span class="c1">// The observer fuses our encoder data and voltage inputs to reject noise.</span>
+<span class="linenos">49</span><span class="w">  </span><span class="n">frc</span><span class="o">::</span><span class="n">KalmanFilter</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_observer</span><span class="p">{</span>
+<span class="linenos">50</span><span class="w">      </span><span class="n">m_flywheelPlant</span><span class="p">,</span>
+<span class="linenos">51</span><span class="w">      </span><span class="p">{</span><span class="mf">3.0</span><span class="p">},</span><span class="w">   </span><span class="c1">// How accurate we think our model is</span>
+<span class="linenos">52</span><span class="w">      </span><span class="p">{</span><span class="mf">0.01</span><span class="p">},</span><span class="w">  </span><span class="c1">// How accurate we think our encoder data is</span>
+<span class="linenos">53</span><span class="w">      </span><span class="mi">20</span><span class="n">_ms</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-8" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" data-sync-id="python" for="sd-tab-item-8">
+Python</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">48</span>        <span class="c1"># The observer fuses our encoder data and voltage inputs to reject noise.</span>
+<span class="linenos">49</span>        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span> <span class="o">=</span> <span class="n">wpimath</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">KalmanFilter_1_1_1</span><span class="p">(</span>
+<span class="linenos">50</span>            <span class="bp">self</span><span class="o">.</span><span class="n">flywheelPlant</span><span class="p">,</span>
+<span class="linenos">51</span>            <span class="p">[</span><span class="mi">3</span><span class="p">],</span>  <span class="c1"># How accurate we think our model is</span>
+<span class="linenos">52</span>            <span class="p">[</span><span class="mf">0.01</span><span class="p">],</span>  <span class="c1"># How accurate we think our encoder data is</span>
+<span class="linenos">53</span>            <span class="mf">0.020</span><span class="p">,</span>
+<span class="linenos">54</span>        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Because Kalman filters use our state-space model in the <a class="reference internal" href="state-space-observers.html#predict-step"><span class="std std-ref">Predict step</span></a>, it is important that our model is as accurate as possible. One way to verify this is to record a flywheel’s input voltage and velocity over time, and replay this data by calling only <code class="docutils literal notranslate"><span class="pre">predict</span></code> on the Kalman filter. Then, the kV and kA gains (or moment of inertia and other constants) can be adjusted until the model closely matches the recorded data.</p>
+</section>
+<section id="linear-quadratic-regulators-and-plant-inversion-feedforward">
+<h2>Linear-Quadratic Regulators and Plant Inversion Feedforward<a class="headerlink" href="#linear-quadratic-regulators-and-plant-inversion-feedforward" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="state-space-intro.html#the-linear-quadratic-regulator"><span class="std std-ref">The Linear-Quadratic Regulator</span></a> finds a feedback controller to drive our flywheel <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-system"><span class="xref std std-term">system</span></a> to its <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-reference"><span class="xref std std-term">reference</span></a>. Because our flywheel has just one state, the control law picked by our LQR will be in the form <span class="math notranslate nohighlight">\(\mathbf{u = K (r - x)}\)</span> where <span class="math notranslate nohighlight">\(\mathbf{K}\)</span> is a 1x1 matrix; in other words, the control law picked by LQR is simply a proportional controller, or a PID controller with only a P gain. This gain is chosen by our LQR based on the state excursion and control efforts we pass it. More on tuning LQR controllers can be found in the <a class="reference internal" href="state-space-intro.html#lqr-example-application"><span class="std std-ref">LQR application example</span></a>.</p>
+<p>Much like <code class="docutils literal notranslate"><span class="pre">SimpleMotorFeedforward</span></code> can be used to generate feedforward voltage inputs given kS, kV, and kA constants, the Plant Inversion Feedforward class generate <a class="reference internal" href="state-space-intro.html#visualizing-feedforward"><span class="std std-ref">feedforward</span></a> voltage inputs given a state-space system. The voltage commands generated by the <code class="docutils literal notranslate"><span class="pre">LinearSystemLoop</span></code> class are the sum of the feedforward and feedback inputs.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-9" name="sd-tab-set-3" type="radio">
+</input><label class="sd-tab-label" data-sync-id="java" for="sd-tab-item-9">
+Java</label><div class="sd-tab-content docutils">
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="linenos">59</span><span class="w">  </span><span class="c1">// A LQR uses feedback to create voltage commands.</span>
+<span class="linenos">60</span><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">LinearQuadraticRegulator</span><span class="o">&lt;</span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_controller</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">61</span><span class="w">      </span><span class="k">new</span><span class="w"> </span><span class="n">LinearQuadraticRegulator</span><span class="o">&lt;&gt;</span><span class="p">(</span>
+<span class="linenos">62</span><span class="w">          </span><span class="n">m_flywheelPlant</span><span class="p">,</span>
+<span class="linenos">63</span><span class="w">          </span><span class="n">VecBuilder</span><span class="p">.</span><span class="na">fill</span><span class="p">(</span><span class="mf">8.0</span><span class="p">),</span><span class="w"> </span><span class="c1">// qelms. Velocity error tolerance, in radians per second. Decrease</span>
+<span class="linenos">64</span><span class="w">          </span><span class="c1">// this to more heavily penalize state excursion, or make the controller behave more</span>
+<span class="linenos">65</span><span class="w">          </span><span class="c1">// aggressively.</span>
+<span class="linenos">66</span><span class="w">          </span><span class="n">VecBuilder</span><span class="p">.</span><span class="na">fill</span><span class="p">(</span><span class="mf">12.0</span><span class="p">),</span><span class="w"> </span><span class="c1">// relms. Control effort (voltage) tolerance. Decrease this to more</span>
+<span class="linenos">67</span><span class="w">          </span><span class="c1">// heavily penalize control effort, or make the controller less aggressive. 12 is a good</span>
+<span class="linenos">68</span><span class="w">          </span><span class="c1">// starting point because that is the (approximate) maximum voltage of a battery.</span>
+<span class="linenos">69</span><span class="w">          </span><span class="mf">0.020</span><span class="p">);</span><span class="w"> </span><span class="c1">// Nominal time between loops. 0.020 for TimedRobot, but can be</span>
+<span class="linenos">70</span><span class="w">  </span><span class="c1">// lower if using notifiers.</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-10" name="sd-tab-set-3" type="radio">
+</input><label class="sd-tab-label" data-sync-id="c++" for="sd-tab-item-10">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">11</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/controller/LinearQuadraticRegulator.h&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">54</span><span class="w">  </span><span class="c1">// A LQR uses feedback to create voltage commands.</span>
+<span class="linenos">55</span><span class="w">  </span><span class="n">frc</span><span class="o">::</span><span class="n">LinearQuadraticRegulator</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_controller</span><span class="p">{</span>
+<span class="linenos">56</span><span class="w">      </span><span class="n">m_flywheelPlant</span><span class="p">,</span>
+<span class="linenos">57</span><span class="w">      </span><span class="c1">// qelms. Velocity error tolerance, in radians per second. Decrease this</span>
+<span class="linenos">58</span><span class="w">      </span><span class="c1">// to more heavily penalize state excursion, or make the controller behave</span>
+<span class="linenos">59</span><span class="w">      </span><span class="c1">// more aggressively.</span>
+<span class="linenos">60</span><span class="w">      </span><span class="p">{</span><span class="mf">8.0</span><span class="p">},</span>
+<span class="linenos">61</span><span class="w">      </span><span class="c1">// relms. Control effort (voltage) tolerance. Decrease this to more</span>
+<span class="linenos">62</span><span class="w">      </span><span class="c1">// heavily penalize control effort, or make the controller less</span>
+<span class="linenos">63</span><span class="w">      </span><span class="c1">// aggressive. 12 is a good starting point because that is the</span>
+<span class="linenos">64</span><span class="w">      </span><span class="c1">// (approximate) maximum voltage of a battery.</span>
+<span class="linenos">65</span><span class="w">      </span><span class="p">{</span><span class="mf">12.0</span><span class="p">},</span>
+<span class="linenos">66</span><span class="w">      </span><span class="c1">// Nominal time between loops. 20ms for TimedRobot, but can be lower if</span>
+<span class="linenos">67</span><span class="w">      </span><span class="c1">// using notifiers.</span>
+<span class="linenos">68</span><span class="w">      </span><span class="mi">20</span><span class="n">_ms</span><span class="p">};</span>
+<span class="linenos">69</span>
+<span class="linenos">70</span><span class="w">  </span><span class="c1">// The state-space loop combines a controller, observer, feedforward and plant</span>
+<span class="linenos">71</span><span class="w">  </span><span class="c1">// for easy control.</span>
+<span class="linenos">72</span><span class="w">  </span><span class="n">frc</span><span class="o">::</span><span class="n">LinearSystemLoop</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_loop</span><span class="p">{</span><span class="n">m_flywheelPlant</span><span class="p">,</span><span class="w"> </span><span class="n">m_controller</span><span class="p">,</span>
+<span class="linenos">73</span><span class="w">                                        </span><span class="n">m_observer</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="n">_V</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="n">_ms</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-3" type="radio">
+</input><label class="sd-tab-label" data-sync-id="python" for="sd-tab-item-11">
+Python</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">56</span>        <span class="c1"># A LQR uses feedback to create voltage commands.</span>
+<span class="linenos">57</span>        <span class="bp">self</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="n">wpimath</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">LinearQuadraticRegulator_1_1</span><span class="p">(</span>
+<span class="linenos">58</span>            <span class="bp">self</span><span class="o">.</span><span class="n">flywheelPlant</span><span class="p">,</span>
+<span class="linenos">59</span>            <span class="p">[</span><span class="mi">8</span><span class="p">],</span>  <span class="c1"># qelms. Velocity error tolerance, in radians per second. Decrease</span>
+<span class="linenos">60</span>            <span class="c1"># this to more heavily penalize state excursion, or make the controller behave more</span>
+<span class="linenos">61</span>            <span class="c1"># aggressively.</span>
+<span class="linenos">62</span>            <span class="p">[</span><span class="mi">12</span><span class="p">],</span>  <span class="c1"># relms. Control effort (voltage) tolerance. Decrease this to more</span>
+<span class="linenos">63</span>            <span class="c1"># heavily penalize control effort, or make the controller less aggressive. 12 is a good</span>
+<span class="linenos">64</span>            <span class="c1"># starting point because that is the (approximate) maximum voltage of a battery.</span>
+<span class="linenos">65</span>            <span class="mf">0.020</span><span class="p">,</span>  <span class="c1"># Nominal time between loops. 0.020 for TimedRobot, but can be lower if using notifiers.</span>
+<span class="linenos">66</span>        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bringing-it-all-together-linearsystemloop">
+<h2>Bringing it All Together: LinearSystemLoop<a class="headerlink" href="#bringing-it-all-together-linearsystemloop" title="Link to this heading">#</a></h2>
+<p>LinearSystemLoop combines our system, controller, and observer that we created earlier. The constructor shown will also instantiate a <code class="docutils literal notranslate"><span class="pre">PlantInversionFeedforward</span></code>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-12" name="sd-tab-set-4" type="radio">
+</input><label class="sd-tab-label" data-sync-id="java" for="sd-tab-item-12">
+Java</label><div class="sd-tab-content docutils">
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="linenos">72</span><span class="w">  </span><span class="c1">// The state-space loop combines a controller, observer, feedforward and plant for easy control.</span>
+<span class="linenos">73</span><span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">LinearSystemLoop</span><span class="o">&lt;</span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="p">,</span><span class="w"> </span><span class="n">N1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_loop</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">74</span><span class="w">      </span><span class="k">new</span><span class="w"> </span><span class="n">LinearSystemLoop</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">m_flywheelPlant</span><span class="p">,</span><span class="w"> </span><span class="n">m_controller</span><span class="p">,</span><span class="w"> </span><span class="n">m_observer</span><span class="p">,</span><span class="w"> </span><span class="mf">12.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.020</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-13" name="sd-tab-set-4" type="radio">
+</input><label class="sd-tab-label" data-sync-id="c++" for="sd-tab-item-13">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">15</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/system/LinearSystemLoop.h&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos">71</span><span class="w">  </span><span class="c1">// The state-space loop combines a controller, observer, feedforward and plant</span>
+<span class="linenos">72</span><span class="w">  </span><span class="c1">// for easy control.</span>
+<span class="linenos">73</span><span class="w">  </span><span class="n">frc</span><span class="o">::</span><span class="n">LinearSystemLoop</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_loop</span><span class="p">{</span><span class="n">m_flywheelPlant</span><span class="p">,</span><span class="w"> </span><span class="n">m_controller</span><span class="p">,</span>
+<span class="linenos">74</span><span class="w">                                        </span><span class="n">m_observer</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="n">_V</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="n">_ms</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-14" name="sd-tab-set-4" type="radio">
+</input><label class="sd-tab-label" data-sync-id="python" for="sd-tab-item-14">
+Python</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">68</span>        <span class="c1"># The state-space loop combines a controller, observer, feedforward and plant for easy control.</span>
+<span class="linenos">69</span>        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="n">wpimath</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">LinearSystemLoop_1_1_1</span><span class="p">(</span>
+<span class="linenos">70</span>            <span class="bp">self</span><span class="o">.</span><span class="n">flywheelPlant</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="mf">0.020</span>
+<span class="linenos">71</span>        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once we have our <code class="docutils literal notranslate"><span class="pre">LinearSystemLoop</span></code>, the only thing left to do is actually run it. To do that, we’ll periodically update our Kalman filter with our new encoder velocity measurements and apply new voltage commands to it. To do that, we first set the <a class="hxr-hoverxref hxr-tooltip reference internal" href="../controls-glossary.html#term-reference"><span class="xref std std-term">reference</span></a>, then <code class="docutils literal notranslate"><span class="pre">correct</span></code> with the current flywheel speed, <code class="docutils literal notranslate"><span class="pre">predict</span></code> the Kalman filter into the next timestep, and apply the inputs generated using <code class="docutils literal notranslate"><span class="pre">getU</span></code>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-15" name="sd-tab-set-5" type="radio">
+</input><label class="sd-tab-label" data-sync-id="java" for="sd-tab-item-15">
+Java</label><div class="sd-tab-content docutils">
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 95</span><span class="w">  </span><span class="nd">@Override</span>
+<span class="linenos"> 96</span><span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">teleopPeriodic</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 97</span><span class="w">    </span><span class="c1">// Sets the target speed of our flywheel. This is similar to setting the setpoint of a</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="c1">// PID controller.</span>
+<span class="linenos"> 99</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_joystick</span><span class="p">.</span><span class="na">getTriggerPressed</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">100</span><span class="w">      </span><span class="c1">// We just pressed the trigger, so let&#39;s set our next reference</span>
+<span class="linenos">101</span><span class="w">      </span><span class="n">m_loop</span><span class="p">.</span><span class="na">setNextR</span><span class="p">(</span><span class="n">VecBuilder</span><span class="p">.</span><span class="na">fill</span><span class="p">(</span><span class="n">kSpinupRadPerSec</span><span class="p">));</span>
+<span class="linenos">102</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_joystick</span><span class="p">.</span><span class="na">getTriggerReleased</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">103</span><span class="w">      </span><span class="c1">// We just released the trigger, so let&#39;s spin down</span>
+<span class="linenos">104</span><span class="w">      </span><span class="n">m_loop</span><span class="p">.</span><span class="na">setNextR</span><span class="p">(</span><span class="n">VecBuilder</span><span class="p">.</span><span class="na">fill</span><span class="p">(</span><span class="mf">0.0</span><span class="p">));</span>
+<span class="linenos">105</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">106</span>
+<span class="linenos">107</span><span class="w">    </span><span class="c1">// Correct our Kalman filter&#39;s state vector estimate with encoder data.</span>
+<span class="linenos">108</span><span class="w">    </span><span class="n">m_loop</span><span class="p">.</span><span class="na">correct</span><span class="p">(</span><span class="n">VecBuilder</span><span class="p">.</span><span class="na">fill</span><span class="p">(</span><span class="n">m_encoder</span><span class="p">.</span><span class="na">getRate</span><span class="p">()));</span>
+<span class="linenos">109</span>
+<span class="linenos">110</span><span class="w">    </span><span class="c1">// Update our LQR to generate new voltage commands and use the voltages to predict the next</span>
+<span class="linenos">111</span><span class="w">    </span><span class="c1">// state with out Kalman filter.</span>
+<span class="linenos">112</span><span class="w">    </span><span class="n">m_loop</span><span class="p">.</span><span class="na">predict</span><span class="p">(</span><span class="mf">0.020</span><span class="p">);</span>
+<span class="linenos">113</span>
+<span class="linenos">114</span><span class="w">    </span><span class="c1">// Send the new calculated voltage to the motors.</span>
+<span class="linenos">115</span><span class="w">    </span><span class="c1">// voltage = duty cycle * battery voltage, so</span>
+<span class="linenos">116</span><span class="w">    </span><span class="c1">// duty cycle = voltage / battery voltage</span>
+<span class="linenos">117</span><span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">nextVoltage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_loop</span><span class="p">.</span><span class="na">getU</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="linenos">118</span><span class="w">    </span><span class="n">m_motor</span><span class="p">.</span><span class="na">setVoltage</span><span class="p">(</span><span class="n">nextVoltage</span><span class="p">);</span>
+<span class="linenos">119</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos">120</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-16" name="sd-tab-set-5" type="radio">
+</input><label class="sd-tab-label" data-sync-id="c++" for="sd-tab-item-16">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 5</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numbers&gt;</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/DriverStation.h&gt;</span>
+<span class="linenos"> 8</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/Encoder.h&gt;</span>
+<span class="linenos"> 9</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/TimedRobot.h&gt;</span>
+<span class="linenos">10</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/XboxController.h&gt;</span>
+<span class="linenos">11</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/controller/LinearQuadraticRegulator.h&gt;</span>
+<span class="linenos">12</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/drive/DifferentialDrive.h&gt;</span>
+<span class="linenos">13</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/estimator/KalmanFilter.h&gt;</span>
+<span class="linenos">14</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/motorcontrol/PWMSparkMax.h&gt;</span>
+<span class="linenos">15</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/system/LinearSystemLoop.h&gt;</span>
+<span class="linenos">16</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/system/plant/DCMotor.h&gt;</span>
+<span class="linenos">17</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;frc/system/plant/LinearSystemId.h&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 92</span><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">TeleopPeriodic</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 93</span><span class="w">    </span><span class="c1">// Sets the target speed of our flywheel. This is similar to setting the</span>
+<span class="linenos"> 94</span><span class="w">    </span><span class="c1">// setpoint of a PID controller.</span>
+<span class="linenos"> 95</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_joystick</span><span class="p">.</span><span class="n">GetRightBumper</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 96</span><span class="w">      </span><span class="c1">// We pressed the bumper, so let&#39;s set our next reference</span>
+<span class="linenos"> 97</span><span class="w">      </span><span class="n">m_loop</span><span class="p">.</span><span class="n">SetNextR</span><span class="p">(</span><span class="n">frc</span><span class="o">::</span><span class="n">Vectord</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{</span><span class="n">kSpinup</span><span class="p">.</span><span class="n">value</span><span class="p">()});</span>
+<span class="linenos"> 98</span><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 99</span><span class="w">      </span><span class="c1">// We released the bumper, so let&#39;s spin down</span>
+<span class="linenos">100</span><span class="w">      </span><span class="n">m_loop</span><span class="p">.</span><span class="n">SetNextR</span><span class="p">(</span><span class="n">frc</span><span class="o">::</span><span class="n">Vectord</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{</span><span class="mf">0.0</span><span class="p">});</span>
+<span class="linenos">101</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">102</span>
+<span class="linenos">103</span><span class="w">    </span><span class="c1">// Correct our Kalman filter&#39;s state vector estimate with encoder data.</span>
+<span class="linenos">104</span><span class="w">    </span><span class="n">m_loop</span><span class="p">.</span><span class="n">Correct</span><span class="p">(</span><span class="n">frc</span><span class="o">::</span><span class="n">Vectord</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">{</span><span class="n">m_encoder</span><span class="p">.</span><span class="n">GetRate</span><span class="p">()});</span>
+<span class="linenos">105</span>
+<span class="linenos">106</span><span class="w">    </span><span class="c1">// Update our LQR to generate new voltage commands and use the voltages to</span>
+<span class="linenos">107</span><span class="w">    </span><span class="c1">// predict the next state with out Kalman filter.</span>
+<span class="linenos">108</span><span class="w">    </span><span class="n">m_loop</span><span class="p">.</span><span class="n">Predict</span><span class="p">(</span><span class="mi">20</span><span class="n">_ms</span><span class="p">);</span>
+<span class="linenos">109</span>
+<span class="linenos">110</span><span class="w">    </span><span class="c1">// Send the new calculated voltage to the motors.</span>
+<span class="linenos">111</span><span class="w">    </span><span class="c1">// voltage = duty cycle * battery voltage, so</span>
+<span class="linenos">112</span><span class="w">    </span><span class="c1">// duty cycle = voltage / battery voltage</span>
+<span class="linenos">113</span><span class="w">    </span><span class="n">m_motor</span><span class="p">.</span><span class="n">SetVoltage</span><span class="p">(</span><span class="n">units</span><span class="o">::</span><span class="n">volt_t</span><span class="p">{</span><span class="n">m_loop</span><span class="p">.</span><span class="n">U</span><span class="p">(</span><span class="mi">0</span><span class="p">)});</span>
+<span class="linenos">114</span><span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-17" name="sd-tab-set-5" type="radio">
+</input><label class="sd-tab-label" data-sync-id="python" for="sd-tab-item-17">
+Python</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 87</span>    <span class="k">def</span> <span class="nf">teleopPeriodic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos"> 88</span>        <span class="c1"># Sets the target speed of our flywheel. This is similar to setting the setpoint of a</span>
+<span class="linenos"> 89</span>        <span class="c1"># PID controller.</span>
+<span class="linenos"> 90</span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">joystick</span><span class="o">.</span><span class="n">getTriggerPressed</span><span class="p">():</span>
+<span class="linenos"> 91</span>            <span class="c1"># We just pressed the trigger, so let&#39;s set our next reference</span>
+<span class="linenos"> 92</span>            <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">setNextR</span><span class="p">([</span><span class="n">kSpinUpRadPerSec</span><span class="p">])</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span>        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">joystick</span><span class="o">.</span><span class="n">getTriggerReleased</span><span class="p">():</span>
+<span class="linenos"> 95</span>            <span class="c1"># We just released the trigger, so let&#39;s spin down</span>
+<span class="linenos"> 96</span>            <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">setNextR</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+<span class="linenos"> 97</span>
+<span class="linenos"> 98</span>        <span class="c1"># Correct our Kalman filter&#39;s state vector estimate with encoder data.</span>
+<span class="linenos"> 99</span>        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">correct</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">getRate</span><span class="p">()])</span>
+<span class="linenos">100</span>
+<span class="linenos">101</span>        <span class="c1"># Update our LQR to generate new voltage commands and use the voltages to predict the next</span>
+<span class="linenos">102</span>        <span class="c1"># state with out Kalman filter.</span>
+<span class="linenos">103</span>        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="mf">0.020</span><span class="p">)</span>
+<span class="linenos">104</span>
+<span class="linenos">105</span>        <span class="c1"># Send the new calculated voltage to the motors.</span>
+<span class="linenos">106</span>        <span class="c1"># voltage = duty cycle * battery voltage, so</span>
+<span class="linenos">107</span>        <span class="c1"># duty cycle = voltage / battery voltage</span>
+<span class="linenos">108</span>        <span class="n">nextVoltage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">U</span><span class="p">()</span>
+<span class="linenos">109</span>        <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">setVoltage</span><span class="p">(</span><span class="n">nextVoltage</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="angle-wrap-with-lqr">
+<h2>Angle Wrap with LQR<a class="headerlink" href="#angle-wrap-with-lqr" title="Link to this heading">#</a></h2>
+<p>Mechanisms with a continuous angle can have that angle wrapped by calling the code below instead of <code class="docutils literal notranslate"><span class="pre">lqr.Calculate(x,</span> <span class="pre">r)</span></code>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-18" name="sd-tab-set-6" type="radio">
+</input><label class="sd-tab-label" data-sync-id="tabcode-java" for="sd-tab-item-18">
+JAVA</label><div class="sd-tab-content docutils">
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lqr</span><span class="p">.</span><span class="na">getR</span><span class="p">().</span><span class="na">minus</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="n">error</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MathUtil</span><span class="p">.</span><span class="na">angleModulus</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)));</span>
+<span class="kd">var</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lqr</span><span class="p">.</span><span class="na">getK</span><span class="p">().</span><span class="na">times</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-19" name="sd-tab-set-6" type="radio">
+</input><label class="sd-tab-label" data-sync-id="tabcode-c++" for="sd-tab-item-19">
+C++</label><div class="sd-tab-content docutils">
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">Eigen</span><span class="o">::</span><span class="n">Vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lqr</span><span class="p">.</span><span class="n">R</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="n">error</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">frc</span><span class="o">::</span><span class="n">AngleModulus</span><span class="p">(</span><span class="n">units</span><span class="o">::</span><span class="n">radian_t</span><span class="p">{</span><span class="n">error</span><span class="p">(</span><span class="mi">0</span><span class="p">)}).</span><span class="n">value</span><span class="p">();</span>
+<span class="n">Eigen</span><span class="o">::</span><span class="n">Vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">&gt;</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lqr</span><span class="p">.</span><span class="n">K</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-20" name="sd-tab-set-6" type="radio">
+</input><label class="sd-tab-label" data-sync-id="tabcode-python" for="sd-tab-item-20">
+PYTHON</label><div class="sd-tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">error</span> <span class="o">=</span> <span class="n">lqr</span><span class="o">.</span><span class="n">R</span><span class="p">()</span> <span class="o">-</span> <span class="n">x</span>
+<span class="n">error</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">wpimath</span><span class="o">.</span><span class="n">angleModulus</span><span class="p">(</span><span class="n">error</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">lqr</span><span class="o">.</span><span class="n">K</span><span class="p">()</span> <span class="o">*</span> <span class="n">error</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="state-space-observers.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">State Observers and Kalman Filters</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="state-space-intro.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">מבוא לבקרת State-Space</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, FIRST and other WPILib Contributors. This work is licensed under a Creative Commons Attribution 4.0 International License
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">State-Space Controller Walkthrough</a><ul>
+<li><a class="reference internal" href="#why-use-state-space-control">Why Use State-Space Control?</a></li>
+<li><a class="reference internal" href="#modeling-our-flywheel">Modeling Our Flywheel</a><ul>
+<li><a class="reference internal" href="#modeling-with-system-identification">Modeling with System Identification</a></li>
+<li><a class="reference internal" href="#modeling-using-flywheel-moment-of-inertia-and-gearing">Modeling Using Flywheel Moment of Inertia and Gearing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#kalman-filters-observing-flywheel-state">Kalman Filters: Observing Flywheel State</a></li>
+<li><a class="reference internal" href="#linear-quadratic-regulators-and-plant-inversion-feedforward">Linear-Quadratic Regulators and Plant Inversion Feedforward</a></li>
+<li><a class="reference internal" href="#bringing-it-all-together-linearsystemloop">Bringing it All Together: LinearSystemLoop</a></li>
+<li><a class="reference internal" href="#angle-wrap-with-lqr">Angle Wrap with LQR</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../../_static/jquery.js?v=5d32c60e"></script> <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script> <script src="../../../../_static/documentation_options.js?v=d41de297"></script> <script src="../../../../_static/doctools.js?v=888ff710"></script> <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script> <script src="../../../../_static/scripts/furo.js?v=32e29ea5"></script> <script async="async" src="../../../../_static/js/present.js?v=2b5739e0"></script> <script src="../../../../_static/js/hoverxref.js?v=cd34ac60"></script> <script src="../../../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script> <script src="../../../../_static/js/micromodal.min.js?v=04d6302d"></script> <script src="../../../../_static/js/versionwarning.js?v=833f5b0d"></script> <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script> <script src="../../../../_static/copybutton.js?v=f281be69"></script> <script src="../../../../_static/pid-tune.js?v=4c388ee0"></script> <script src="../../../../_static/js/api-docs-redirect.js?v=0985b9a8"></script> <script src="../../../../_static/js/fix-rtd-menu-ios.js?v=473127e0"></script> <script src="../../../../_static/js/external-links-new-tab.js?v=bfd61058"></script> <script src="../../../../_static/js/version-2014.js?v=23cc7a89"></script> <script src="../../../../_static/translations.js?v=6a079299"></script> <script src="../../../../_static/design-tabs.js?v=36754332"></script> <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+<script defer>
+  const button = Object.assign(document.createElement("a"), {
+    href: "?present",
+    className: "present muted-link",
+  });
+  button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" /></svg>`;
+  const container = document.querySelector(".content-icon-container");
+  container.appendChild(button);
+</script></body>
+</html>

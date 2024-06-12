@@ -1,0 +1,1567 @@
+<!doctype html>
+<html class="no-js" lang="he" data-content_root="../../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<meta property="og:title" content="Introduction to FRC Robot Wiring" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" />
+<meta property="og:site_name" content="FIRST Robotics Competition Documentation" />
+<meta property="og:description" content="סקירה כללית: REV Detailed diagram of all of the components and how they are connected. התרשים באדיבות קבוצת #3161 ו-Stefen Acepcion., CTR Detailed diagram of all of the components and how they are ..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/wpilibsuite/branding/main/png/wpilib-128.png" />
+<meta property="og:image:alt" content="FIRST Robotics Competition Documentation" />
+<meta name="description" content="סקירה כללית: REV Detailed diagram of all of the components and how they are connected. התרשים באדיבות קבוצת #3161 ו-Stefen Acepcion., CTR Detailed diagram of all of the components and how they are ..." />
+<meta property="og:ignore_canonical" content="true" />
+<meta name="theme-color" content="#003974" />
+<meta name="google-site-verification" content="xcmdxM0KzMYiAOeJzyF_l2Tn3AHGzPICs9_vX6q2nwM" />
+
+<link rel="alternate" hreflang="en" href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" />
+<link rel="alternate" hreflang="x-default" href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" />
+<link rel="alternate" hreflang="es" href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" />
+<link rel="alternate" hreflang="fr" href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" />
+<link rel="alternate" hreflang="he" href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" />
+<link rel="alternate" hreflang="pt" href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" />
+<link rel="alternate" hreflang="tr" href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" />
+<link rel="alternate" hreflang="zh-CN" href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" /><link rel="index" title="אינדקס" href="../../../genindex.html" /><link rel="search" title="חיפוש" href="../../../search.html" /><link rel="next" title="שלב 2: התקנת התוכנות" href="../step-2/index.html" /><link rel="prev" title="שלב 1: בניית הרובוט" href="index.html" />
+        <link rel="canonical" href="https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-1/intro-to-frc-robot-wiring.html" />
+
+    <link rel="shortcut icon" href="../../../_static/FIRSTicon_RGB_withTM.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>Introduction to FRC Robot Wiring - תיעוד FIRST Robotics Competition</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/tooltipster.custom.css?v=7bc2f056" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/tooltipster.bundle.min.css?v=37217874" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/tooltipster-sideTip-shadow.min.css?v=6227e517" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/tooltipster-sideTip-punk.min.css?v=94669e23" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/tooltipster-sideTip-noir.min.css?v=21a39f42" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/tooltipster-sideTip-light.min.css?v=a18b2449" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/tooltipster-sideTip-borderless.min.css?v=dbff53e4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/micromodal.css?v=d7bf34ee" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pid-tune.css?v=89dfaf8f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/frc-furo.css?v=a605b0da" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/frc-rtl.css?v=2b038f9b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-sidebar-background: #003974;
+  --color-sidebar-brand-text: #ffffffcc;
+  --color-sidebar-link-text--top-level: #d9d9d9;
+  --color-background-hover: #023160;
+  --color-sidebar-link-text: #acb1b9;
+  --color-sidebar-caption-text: #81868d;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../index.html"><div class="brand">תיעוד FIRST Robotics Competition </div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand" href="../../../index.html">
+   
+
+<span class="sidebar-brand-text"
+  >FIRST Robotics Competition</span
+>
+<div class="sidebar-logo-container">
+  <img class="sidebar-logo" src="../../../_static/wpilibDocsLogo.png" alt="Logo?" />
+</div>
+
+
+  <div class="version">
+    2024
+  </div>
+
+
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="חיפוש" name="q" aria-label="חיפוש">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">מאפס לרובוט</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">מבוא</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">שלב 1: בניית הרובוט</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of שלב 1: בניית הרובוט</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Introduction to FRC Robot Wiring</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../step-2/index.html">שלב 2: התקנת התוכנות</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of שלב 2: התקנת התוכנות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/offline-installation-preparations.html">הכנת להתקנה Offline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/labview-setup.html">התקנת LabVIEW עבור FRC (LabVIEW בלבד)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/frc-game-tools.html">התקנת ה-FRC Game Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/wpilib-setup.html">מדריך התקנת WPILib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/python-setup.html">Python Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/step-2-next-steps.html">השלבים הבאים</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../step-3/index.html">שלב 3: הכנת הרובוט</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of שלב 3: הכנת הרובוט</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../step-3/roborio2-imaging.html">Imaging your roboRIO 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-3/imaging-your-roborio.html">Imaging your roboRIO 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-3/radio-programming.html">כנפוג הראוטר</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../step-4/index.html">שלב 4: תכנות הרובוט</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of שלב 4: תכנות הרובוט</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../step-4/creating-test-drivetrain-program-labview.html">Creating your Test Drivetrain Program (LabVIEW)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-4/creating-test-drivetrain-program-cpp-java-python.html">Creating your Test Drivetrain Program (Java/C++/Python)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-4/running-test-program.html">Running your Test Program</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">סקירות על מערכת הבקרה</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../controls-overviews/control-system-hardware.html">סקירת רכיבי חומרה</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../controls-overviews/control-system-software.html">סקירת רכיבי תוכנה</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">יסודות התכנות</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../software/what-is-wpilib.html">מה זה WPILib?</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../yearly-overview/index.html">2024 Overview</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of 2024 Overview</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../yearly-overview/known-issues.html">בעיות ידעות</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../yearly-overview/yearly-changelog.html">New for 2024</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../yearly-overview/returning-quickstart.html">Quick Start for Returning Teams</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/vscode-overview/index.html">סקירה כללית על VS Code</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of סקירה כללית על VS Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/vscode-overview/vscode-basics.html">יסודות Visual Studio Code והרחבת WPILib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/vscode-overview/wpilib-commands-vscode.html">פקודות WPILib ב-Visual Studio Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/vscode-overview/creating-robot-program.html">Creating a Robot Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/vscode-overview/3rd-party-libraries.html">ספריות צד שלישי</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/vscode-overview/deploying-robot-code.html">בנייה והורדה של קוד רובוט</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/vscode-overview/viewing-console-output.html">Viewing Console Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/vscode-overview/debugging-robot-program.html">Debugging a Robot Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/vscode-overview/importing-last-years-robot-code.html">Importing Last Year’s Robot Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/dashboards/index.html">Dashboards</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Dashboards</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/dashboards/dashboard-intro.html">Choosing a Dashboard</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/dashboards/shuffleboard/index.html">Shuffleboard</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Shuffleboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/index.html">Shuffleboard - Getting Started</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Shuffleboard - Getting Started</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-tour.html">Tour of Shuffleboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-displaying-data.html">Displaying data from your robot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-displaying-camera.html">Displaying Camera Streams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-widgets.html">Working with widgets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-lists.html">Working with Lists</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-tabs.html">Creating and manipulating tabs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-graphs.html">Working with Graphs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-recording.html">Recording and Playback</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-preferences.html">Setting global preferences for Shuffleboard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/getting-started/shuffleboard-faq.html">Shuffleboard FAQ, issues, and bugs</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../software/dashboards/shuffleboard/layouts-with-code/index.html">Shuffleboard - Layouts with Code</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Shuffleboard - Layouts with Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/layouts-with-code/using-tabs.html">Using tabs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/layouts-with-code/sending-data.html">Sending data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/layouts-with-code/retrieving-data.html">Retrieving data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/layouts-with-code/configuring-widgets.html">Configuring widgets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/layouts-with-code/organizing-widgets.html">Organizing Widgets</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../software/dashboards/shuffleboard/advanced-usage/index.html">Shuffleboard - Advanced Usage</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of Shuffleboard - Advanced Usage</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/advanced-usage/shuffleboard-commands-subsystems.html">Commands and Subsystems</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/advanced-usage/shuffleboard-tuning-pid.html">Testing and Tuning PID Loops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/advanced-usage/shuffleboard-hierarchies.html">Viewing Hierarchies of Data</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../software/dashboards/shuffleboard/custom-widgets/index.html">Shuffleboard - Custom Widgets</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Shuffleboard - Custom Widgets</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/custom-widgets/builtin-plugins.html">Built-in Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/custom-widgets/creating-plugins.html">Creating a Plugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/custom-widgets/creating-custom-data-types.html">Creating Custom Data Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/custom-widgets/creating-a-new-widget.html">Creating A Widget</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/custom-widgets/custom-themes.html">Custom Themes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/shuffleboard/custom-widgets/widget-types.html">Widget Types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/dashboards/smartdashboard/index.html">SmartDashboard</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of SmartDashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/smartdashboard/smartdashboard-intro.html">SmartDashboard Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/smartdashboard/displaying-expressions.html">Displaying Expressions from a Robot Program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/smartdashboard/changing-display-properties.html">Changing the display properties of a value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/smartdashboard/changing-display-widget-type.html">Changing the Display Widget Type for a Value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html">Choosing an Autonomous Program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/smartdashboard/displaying-status-of-commands-and-subsystems.html">Displaying the Status of Commands and Subsystems</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/smartdashboard/verifying-smartdashboard-is-working.html">Verifying SmartDashboard is working</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/smartdashboard/smartdashboard-namespace.html">SmartDashboard Namespace</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../software/dashboards/smartdashboard/test-mode-and-live-window/index.html">SmartDashboard: Test Mode and Live Window</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of SmartDashboard: Test Mode and Live Window</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/smartdashboard/test-mode-and-live-window/displaying-LiveWindow-values.html">Displaying LiveWindow Values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/smartdashboard/test-mode-and-live-window/enabling-test-mode.html">Enabling Test mode (LiveWindow)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../software/dashboards/smartdashboard/test-mode-and-live-window/pid-tuning-with-smartdashboard.html">PID Tuning with SmartDashboard</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/dashboards/glass/index.html">Glass</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of Glass</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/glass/introduction.html">Introduction to Glass</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/glass/networktables-connection.html">Establishing NetworkTables Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/glass/widgets.html">Glass Widgets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/glass/command-based-widgets.html">Widgets for the Command-Based Framework</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/glass/field2d-widget.html">The Field2d Widget</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/glass/mech2d-widget.html">The Mechanism2d Widget</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/glass/plots.html">Plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/dashboards/advantagescope.html">AdvantageScope</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/dashboards/labview-dashboard/index.html">LabVIEW Dashboard</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle navigation of LabVIEW Dashboard</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/labview-dashboard/driver-station-labview-dashboard.html">FRC LabVIEW Dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/labview-dashboard/using-the-labview-dashboard-with-c%2B%2B-java-code.html">Using the LabVIEW Dashboard with C++, Java, or Python Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/dashboards/troubleshooting-dashboard-connectivity.html">Troubleshooting Dashboard Connectivity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/dashboards/troubleshooting-dashboard-connectivity.html">Troubleshooting Dashboard Connectivity</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/telemetry/index.html">Telemetry</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle navigation of Telemetry</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/telemetry/telemetry.html">Telemetry: Recording and Sending Real-Time Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/telemetry/robot-telemetry-with-sendable.html">Robot Telemetry with Sendable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/telemetry/datalog.html">On-Robot Telemetry Recording Into Data Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/telemetry/datalog-download.html">Downloading &amp; Processing Data Logs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/telemetry/writing-sendable-classes.html">Writing Your Own Sendable Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/telemetry/3rd-party-libraries.html">Third-Party Telemetry Libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/labview/index.html">תכנות LabVIEW ל-FRC</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle navigation of תכנות LabVIEW ל-FRC</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/labview-setup.html">התקנת LabVIEW עבור FRC (LabVIEW בלבד)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/frc-game-tools.html">התקנת ה-FRC Game Tools</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/labview/creating-robot-programs/index.html">Creating Robot Programs</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle navigation of Creating Robot Programs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../step-4/creating-test-drivetrain-program-labview.html">Creating your Test Drivetrain Program (LabVIEW)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/creating-robot-programs/tank-drive-tutorial.html">Tank Drive Tutorial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/creating-robot-programs/command-and-control-tutorial.html">Command and Control Tutorial</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/labview/resources/index.html">LabVIEW Resources</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle navigation of LabVIEW Resources</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/labview-resources.html">LabVIEW Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/waiting-for-target-to-respond.html">Waiting for Target to Respond - Recovering from bad loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/how-to-toggle-between-two-camera-modes.html">How To Toggle Between Two Camera Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/labview-examples-and-tutorials.html">LabVIEW Examples and Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/add-an-independent-motor-to-a-project.html">Add an Independent Motor to a Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/keyboard-navigation-with-the-roborio.html">Keyboard Navigation with the roboRIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/making-a-one-shot-button-press.html">Making a One-Shot Button Press</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/adding-safety-features-to-your-robot-code.html">Adding Safety Features to Your Robot Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/how-to-use-joystick-buttons-to-control-motors-or-solenoids.html">How to Use Joystick Buttons to Control Motors or Solenoids</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/local-and-global-variables-in-labview-for-frc.html">Local and Global Variables in LabVIEW for FRC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/labview/resources/using-the-compressor-in-labview.html">Using the Compressor in LabVIEW</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/python/index.html">FRC Python Programming</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of FRC Python Programming</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/python-setup.html">Python Installation Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-2/frc-game-tools.html">התקנת ה-FRC Game Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/python/pyproject_toml.html">pyproject.toml usage</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/python/subcommands/index.html">RobotPy subcommands</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" role="switch" type="checkbox"/><label for="toctree-checkbox-22"><div class="visually-hidden">Toggle navigation of RobotPy subcommands</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/python/subcommands/deploy.html">Deploy Python program to roboRIO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/hardware-apis/index.html">Hardware APIs</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" role="switch" type="checkbox"/><label for="toctree-checkbox-23"><div class="visually-hidden">Toggle navigation of Hardware APIs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/hardware-apis/motors/index.html">Motors APIs</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of Motors APIs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/motors/using-motor-controllers.html">Using Motor Controllers in Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/motors/pwm-controllers.html">PWM Motor Controllers in Depth</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/motors/wpi-drive-classes.html">Using the WPILib Classes to Drive your Robot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/motors/servos.html">Repeatable Low Power Movement - Controlling Servos with WPILib</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/hardware-apis/pneumatics/index.html">Pneumatics APIs</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" role="switch" type="checkbox"/><label for="toctree-checkbox-25"><div class="visually-hidden">Toggle navigation of Pneumatics APIs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/pneumatics/solenoids.html">Operating Pneumatic Cylinders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/pneumatics/pressure.html">Generating and Storing Pressure</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/hardware-apis/sensors/index.html">חיישנים</a><input class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" role="switch" type="checkbox"/><label for="toctree-checkbox-26"><div class="visually-hidden">Toggle navigation of חיישנים</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/sensor-overview-software.html">סקירת חיישנים - תוכנה</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/accelerometers-software.html">Accelerometers - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/gyros-software.html">Gyroscopes - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/ultrasonics-software.html">Ultrasonics - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/counters.html">Counters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/encoders-software.html">Encoders - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/analog-inputs-software.html">Analog Inputs - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/analog-potentiometers-software.html">Analog Potentiometers - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/digital-inputs-software.html">Digital Inputs - Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/sensors/limit-switch.html">Programming Limit Switches</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/hardware-apis/misc/index.html">Miscellaneous Hardware APIs</a><input class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><div class="visually-hidden">Toggle navigation of Miscellaneous Hardware APIs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/hardware-apis/misc/addressable-leds.html">Addressable LEDs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/can-devices/index.html">מכשירי CAN</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><div class="visually-hidden">Toggle navigation of מכשירי CAN</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/can-devices/using-can-devices.html">Using CAN Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/can-devices/pneumatics-control-module.html">Pneumatics Control Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/can-devices/pneumatic-hub.html">Pneumatic Hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/can-devices/power-distribution-module.html">Power Distribution Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/can-devices/third-party-devices.html">Third-Party CAN Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/can-devices/can-addressing.html">ספציפיקציות מכשירי CAN בFRC</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/basic-programming/index.html">תכנות בסיסי</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><div class="visually-hidden">Toggle navigation of תכנות בסיסי</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/git-getting-started.html">מבוא ל-GIt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/cpp-units.html">The C++ Units Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/java-units.html">The Java Units Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/joystick.html">Joysticks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/coordinate-system.html">Coordinate System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/robot-preferences.html">Setting Robot Preferences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/using-test-mode.html">Using Test Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/reading-stacktraces.html">Reading Stacktraces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/functions-as-data.html">Treating Functions as Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/alliancecolor.html">Get Alliance Color</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/basic-programming/java-gc.html">Java Garbage Collection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/support/support-resources.html">משאבי תמיכה</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/frc-glossary.html">מילון מונחי FRC</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">תיעוד ה-API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.wpilib.org/allwpilib/docs/release/java/index.html">תיעוד WPILib API ל-Java</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.wpilib.org/allwpilib/docs/release/cpp/index.html">תיעוד WPILib API ל-C++</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://robotpy.readthedocs.io/projects/robotpy/en/stable/">תיעוד WPILib Python API</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">כלי תכנות</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/driverstation/index.html">Driver Station</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><div class="visually-hidden">Toggle navigation of Driver Station</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/driverstation/driver-station.html">FRC Driver Station Powered by NI LabVIEW</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/driverstation/driver-station-best-practices.html">Driver Station Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/driverstation/driver-station-log-viewer.html">Driver Station Log File Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/driverstation/driver-station-errors-warnings.html">Driver Station Errors/Warnings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/driverstation/driver-station-timing-viewer.html">Driver Station Timing Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/driverstation/programming-radios-for-fms-offseason.html">Programming Radios for FMS Offseason</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/driverstation/manually-setting-the-driver-station-to-start-custom-dashboard.html">Manually Setting the Driver Station to Start Custom Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/index.html">RobotBuilder</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" role="switch" type="checkbox"/><label for="toctree-checkbox-31"><div class="visually-hidden">Toggle navigation of RobotBuilder</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/index.html">RobotBuilder - Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" role="switch" type="checkbox"/><label for="toctree-checkbox-32"><div class="visually-hidden">Toggle navigation of RobotBuilder - Introduction</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/robotbuilder-overview.html">RobotBuilder Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/starting-robotbuilder.html">Starting RobotBuilder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/robotbuilder-interface.html">RobotBuilder User Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/robotbuilder-setup.html">Setting up the Robot Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/robotbuilder-creating-subsystem.html">Creating a Subsystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/robotbuilder-creating-command.html">Creating a Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/robotbuilder-autonomous-command.html">Setting the Autonomous Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/robotbuilder-testing-with-shuffleboard.html">Using Shuffleboard to Test a Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/robotbuilder-operator-interface-to-command.html">Connecting the Operator Interface to a Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/introduction/robotbuilder-created-code.html">RobotBuilder Created Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/writing-code/index.html">RobotBuilder - Writing the Code</a><input class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><div class="visually-hidden">Toggle navigation of RobotBuilder - Writing the Code</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/writing-code/robotbuilder-generating-code.html">Generating Code for a Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/writing-code/robotbuilder-writing-subsystem-code.html">Writing the Code for a Subsystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/writing-code/robotbuilder-writing-command-code.html">Writing the Code for a Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/writing-code/robotbuilder-drive-tank.html">Driving the Robot with Tank Drive and Joysticks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/advanced/index.html">RobotBuilder - Advanced</a><input class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><div class="visually-hidden">Toggle navigation of RobotBuilder - Advanced</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/advanced/robotbuilder-pidsubsystem-actuators.html">Using PIDSubsystem to Control Actuators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/advanced/robotbuilder-writing-pidsubsystem-code.html">Writing the Code for a PIDSubsystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/advanced/robotbuilder-setpoint-command.html">Setpoint Command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robotbuilder/advanced/robotbuilder-custom-components.html">Adding Custom Components</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/index.html">סימולציית רובוט</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" role="switch" type="checkbox"/><label for="toctree-checkbox-35"><div class="visually-hidden">Toggle navigation of סימולציית רובוט</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/introduction.html">Introduction to Robot Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/simulation-gui.html">Simulation Specific User Interface Elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/dashboards/glass/widgets.html">Glass Widgets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/dashboards/glass/command-based-widgets.html">Widgets for the Command-Based Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/dashboards/glass/field2d-widget.html">The Field2d Widget</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/dashboards/glass/plots.html">Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/physics-sim.html">Physics Simulation with WPILib</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/device-sim.html">Device Simulation</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/drivesim-tutorial/index.html">Drivetrain Simulation Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of Drivetrain Simulation Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/drivesim-tutorial/diffdrive-sim-overview.html">Drivetrain Simulation Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/drivesim-tutorial/simulation-instance.html">Step 1: Creating Simulated Instances of Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/drivesim-tutorial/drivetrain-model.html">Step 2: Creating a Drivetrain Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/drivesim-tutorial/updating-drivetrain-model.html">Step 3: Updating the Drivetrain Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/drivesim-tutorial/odometry-simgui.html">Step 4: Updating Odometry and Visualizing Robot Position</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/wpilib-tools/robot-simulation/unit-testing.html">Unit Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/wpilib-tools/outlineviewer/index.html">OutlineViewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/wpilib-tools/roborio-team-number-setter/index.html">roboRIO Team Number Setter</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">תכנות מתקדם</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/vision-processing/index.html">עיבוד תמונה</a><input class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" role="switch" type="checkbox"/><label for="toctree-checkbox-37"><div class="visually-hidden">Toggle navigation of עיבוד תמונה</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/vision-processing/introduction/index.html">Vision Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" role="switch" type="checkbox"/><label for="toctree-checkbox-38"><div class="visually-hidden">Toggle navigation of Vision Introduction</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/introduction/what-is-vision.html">What is Vision?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/introduction/strategies-for-vision-programming.html">Strategies for Vision Programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/introduction/target-info-and-retroreflection.html">Target Info and Retroreflection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/introduction/identifying-and-processing-the-targets.html">Identifying and Processing the Targets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/introduction/cameraserver-class.html">Read and Process Video: CameraServer Class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/introduction/2017-vision-examples.html">2017 Vision Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/vision-processing/wpilibpi/index.html">Vision with WPILibPi</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" role="switch" type="checkbox"/><label for="toctree-checkbox-39"><div class="visually-hidden">Toggle navigation of Vision with WPILibPi</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/walkthrough-video.html">A Video Walkthrough of using WPILibPi with the Raspberry Pi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/using-a-coprocessor-for-vision-processing.html">Using a Coprocessor for vision processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/using-the-raspberry-pi-for-frc.html">Using the Raspberry Pi for FRC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/what-you-need-to-get-the-pi-image-running.html">What you need to get the Pi image running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/installing-the-image-to-your-microsd-card.html">Installing the image to your MicroSD card</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/the-raspberry-pi-frc-console.html">The Raspberry PI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/using-cameraserver.html">Using CameraServer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/image-thresholding.html">Thresholding an Image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/morphological-operations.html">Morphological Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/working-with-contours.html">Working with Contours</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/wpilibpi/basic-vision-example.html">Basic Vision Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/vision-processing/apriltag/index.html">AprilTag Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><div class="visually-hidden">Toggle navigation of AprilTag Introduction</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/apriltag/apriltag-intro.html">What Are AprilTags?</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/vision-processing/roborio/index.html">Vision on the RoboRIO</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><div class="visually-hidden">Toggle navigation of Vision on the RoboRIO</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/roborio/using-the-cameraserver-on-the-roborio.html">Using the CameraServer on the roboRIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/roborio/using-multiple-cameras.html">Using Multiple Cameras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/vision-processing/roborio/cameraserver-webserver.html">CameraServer Web Interface</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/commandbased/index.html">תכנות מבוסס פקודות</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" role="switch" type="checkbox"/><label for="toctree-checkbox-42"><div class="visually-hidden">Toggle navigation of תכנות מבוסס פקודות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/what-is-command-based.html">מהו ״תכנות מבוסס פקודות״?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/commands.html">Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/command-compositions.html">Command Compositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/subsystems.html">מערכות</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/binding-commands-to-triggers.html">קישור Commands ל-Triggers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/structuring-command-based-project.html">Structuring a Command-Based Robot Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/organizing-command-based.html">Organizing Command-Based Robot Projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/command-scheduler.html">The Command Scheduler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/cpp-command-discussion.html">A Technical Discussion on C++ Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/pid-subsystems-commands.html">PID Control through PIDSubsystems and PIDCommands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/profile-subsystems-commands.html">Motion Profiling through TrapezoidProfileSubsystems and TrapezoidProfileCommands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/commandbased/profilepid-subsystems-commands.html">Combining Motion Profiling and PID in Command-Based</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/kinematics-and-odometry/index.html">קינמטיקה ואודומטריה</a><input class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" role="switch" type="checkbox"/><label for="toctree-checkbox-43"><div class="visually-hidden">Toggle navigation of קינמטיקה ואודומטריה</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/kinematics-and-odometry/intro-and-chassis-speeds.html">Introduction to Kinematics and The ChassisSpeeds Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/kinematics-and-odometry/differential-drive-kinematics.html">Differential Drive Kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/kinematics-and-odometry/differential-drive-odometry.html">Differential Drive Odometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/kinematics-and-odometry/swerve-drive-kinematics.html">Swerve Drive Kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/kinematics-and-odometry/swerve-drive-odometry.html">Swerve Drive Odometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/kinematics-and-odometry/mecanum-drive-kinematics.html">Mecanum Drive Kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/kinematics-and-odometry/mecanum-drive-odometry.html">Mecanum Drive Odometry</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/networktables/index.html">NetworkTables</a><input class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" role="switch" type="checkbox"/><label for="toctree-checkbox-44"><div class="visually-hidden">Toggle navigation of NetworkTables</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/networktables-intro.html">What is NetworkTables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/tables-and-topics.html">NetworkTables Tables and Topics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/publish-and-subscribe.html">Publishing and Subscribing to a Topic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/multiple-instances.html">NetworkTables Instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/networktables-networking.html">NetworkTables Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/listening-for-change.html">Listening for Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/robot-program.html">Writing a Simple NetworkTables Robot Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/client-side-program.html">Creating a Client-side Program</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/nt4-migration-guide.html">Migrating from NetworkTables 3.0 to NetworkTables 4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/networktables/reading-array-values-published-by-networktables.html">Reading Array Values Published by NetworkTables</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/pathplanning/index.html">Path Planning</a><input class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" role="switch" type="checkbox"/><label for="toctree-checkbox-45"><div class="visually-hidden">Toggle navigation of Path Planning</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/pathplanning/trajectory-tutorial/index.html">Trajectory Tutorial</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" role="switch" type="checkbox"/><label for="toctree-checkbox-46"><div class="visually-hidden">Toggle navigation of Trajectory Tutorial</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/trajectory-tutorial/trajectory-tutorial-overview.html">Trajectory Tutorial Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/trajectory-tutorial/characterizing-drive.html">Step 1: Characterizing Your Robot Drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/trajectory-tutorial/entering-constants.html">Step 2: Entering the Calculated Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/trajectory-tutorial/creating-drive-subsystem.html">Step 3: Creating a Drive Subsystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/trajectory-tutorial/creating-following-trajectory.html">שלב 4: יצירה ומעקב אחרי מסלול</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/pathplanning/pathweaver/index.html">PathWeaver</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" role="switch" type="checkbox"/><label for="toctree-checkbox-47"><div class="visually-hidden">Toggle navigation of PathWeaver</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/pathweaver/introduction.html">Introduction to PathWeaver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/pathweaver/creating-pathweaver-project.html">Creating a Pathweaver Project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/pathweaver/drawing-pathweaver-path.html">Visualizing PathWeaver Trajectories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/pathweaver/creating-autonomous-routines.html">Creating Autonomous Routines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/pathweaver/integrating-robot-program.html">Importing a PathWeaver JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/pathplanning/pathweaver/adding-field-images.html">Adding field images to PathWeaver</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/roborio-info/index.html">roboRIO</a><input class="toctree-checkbox" id="toctree-checkbox-48" name="toctree-checkbox-48" role="switch" type="checkbox"/><label for="toctree-checkbox-48"><div class="visually-hidden">Toggle navigation of roboRIO</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/roborio-info/roborio-introduction.html">roboRIO Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-3/imaging-your-roborio.html">Imaging your roboRIO 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../step-3/roborio2-imaging.html">Imaging your roboRIO 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/roborio-info/roborio-web-dashboard.html">roboRIO Web Dashboard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/roborio-info/roborio-ftp.html">roboRIO FTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/roborio-info/roborio-ssh.html">roboRIO User Accounts and SSH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/roborio-info/roborio-brownouts.html">roboRIO Brownout and Understanding Current Draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/roborio-info/recovering-a-roborio-using-safe-mode.html">Recovering a roboRIO using Safe Mode</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://www.ni.com/en-us/innovations/white-papers/15/imaging-the-roborio-and-common-troubleshooting-techniques.html">עזרה נוספת</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/advanced-gradlerio/index.html">Advanced GradleRIO</a><input class="toctree-checkbox" id="toctree-checkbox-49" name="toctree-checkbox-49" role="switch" type="checkbox"/><label for="toctree-checkbox-49"><div class="visually-hidden">Toggle navigation of Advanced GradleRIO</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/advanced-gradlerio/external-libraries.html">Using External Libraries with Robot Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/advanced-gradlerio/robot-code-ci.html">Setting up CI for Robot Code using GitHub Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/advanced-gradlerio/code-formatting.html">Using a Code Formatter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/advanced-gradlerio/gradlew-tasks.html">Gradlew Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/advanced-gradlerio/deploy-git-data.html">Including Git Data in Deploy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/advanced-gradlerio/compiler-args.html">Using Compiler Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/advanced-gradlerio/profiling-with-visualvm.html">Profiling with VisualVM</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/advanced-controls/index.html">בקרות מתקדמות</a><input class="toctree-checkbox" id="toctree-checkbox-50" name="toctree-checkbox-50" role="switch" type="checkbox"/><label for="toctree-checkbox-50"><div class="visually-hidden">Toggle navigation of בקרות מתקדמות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/advanced-controls/video-walkthrough.html">A Video Walkthrough of Model Based Validation of Autonomous in FRC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/advanced-controls/introduction/index.html">מבוא לבקרות מתקדמות</a><input class="toctree-checkbox" id="toctree-checkbox-51" name="toctree-checkbox-51" role="switch" type="checkbox"/><label for="toctree-checkbox-51"><div class="visually-hidden">Toggle navigation of מבוא לבקרות מתקדמות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/control-system-basics.html">Control System Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/picking-control-strategy.html">Picking a Control Strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/introduction-to-feedforward.html">Introduction to DC Motor Feedforward</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/introduction-to-pid.html">מבוא ל-PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/pid-video.html">סרטון מבוא ל-PID מאת WPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/tutorial-intro.html">Introduction To Controls Tuning Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/tuning-flywheel.html">Tuning a Flywheel Velocity Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/tuning-turret.html">Tuning a Turret Position Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/tuning-vertical-arm.html">Tuning a Vertical Arm Position Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/introduction/common-control-issues.html">This translation is just for testing, Reviewer, please remove..</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/advanced-controls/filters/index.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" role="switch" type="checkbox"/><label for="toctree-checkbox-52"><div class="visually-hidden">Toggle navigation of Filters</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/filters/introduction.html">מבוא לפילטרים</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/filters/linear-filter.html">Linear Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/filters/median-filter.html">Median Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/filters/slew-rate-limiter.html">Slew Rate Limiter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/filters/debouncer.html">Debouncer</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/advanced-controls/geometry/index.html">מחלקות גיאומטריה</a><input class="toctree-checkbox" id="toctree-checkbox-53" name="toctree-checkbox-53" role="switch" type="checkbox"/><label for="toctree-checkbox-53"><div class="visually-hidden">Toggle navigation of מחלקות גיאומטריה</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/geometry/pose.html">Translation, Rotation, and Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/geometry/transformations.html">Transformations</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/advanced-controls/system-identification/index.html">System Identification</a><input class="toctree-checkbox" id="toctree-checkbox-54" name="toctree-checkbox-54" role="switch" type="checkbox"/><label for="toctree-checkbox-54"><div class="visually-hidden">Toggle navigation of System Identification</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/system-identification/introduction.html">Introduction to System Identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/system-identification/creating-routine.html">Creating an Identification Routine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/system-identification/running-routine.html">Running the Identification Routine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/system-identification/loading-data.html">Loading Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/system-identification/viewing-diagnostics.html">Viewing Diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/system-identification/analyzing-gains.html">Analyzing Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/system-identification/additional-utils.html">Additional Utilities and Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/advanced-controls/controllers/index.html">Controllers</a><input class="toctree-checkbox" id="toctree-checkbox-55" name="toctree-checkbox-55" role="switch" type="checkbox"/><label for="toctree-checkbox-55"><div class="visually-hidden">Toggle navigation of Controllers</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/controllers/pidcontroller.html">בקרת PID עם WPILib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/controllers/feedforward.html">Feedforward Control in WPILib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/controllers/combining-feedforward-feedback.html">Combining Feedforward and PID Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/controllers/trapezoidal-profiles.html">Trapezoidal Motion Profiles in WPILib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/controllers/profiled-pidcontroller.html">Combining Motion Profiling and PID Control with ProfiledPIDController</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/controllers/bang-bang.html">Bang-Bang Control with BangBangController</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/advanced-controls/trajectories/index.html">יצירה ומעקב מסלולים עם WPILib</a><input class="toctree-checkbox" id="toctree-checkbox-56" name="toctree-checkbox-56" role="switch" type="checkbox"/><label for="toctree-checkbox-56"><div class="visually-hidden">Toggle navigation of יצירה ומעקב מסלולים עם WPILib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/trajectories/trajectory-generation.html">Trajectory Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/trajectories/constraints.html">Trajectory Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/trajectories/manipulating-trajectories.html">Manipulating Trajectories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/trajectories/transforming-trajectories.html">Transforming Trajectories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/trajectories/ramsete.html">בקר Ramsete</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/trajectories/holonomic.html">Holonomic Drive Controller</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/trajectories/troubleshooting.html">פתרון בעיות</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../software/advanced-controls/state-space/index.html">State-Space and Model Based Control with WPILib</a><input class="toctree-checkbox" id="toctree-checkbox-57" name="toctree-checkbox-57" role="switch" type="checkbox"/><label for="toctree-checkbox-57"><div class="visually-hidden">Toggle navigation of State-Space and Model Based Control with WPILib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/state-space/state-space-intro.html">מבוא לבקרת State-Space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/state-space/state-space-flywheel-walkthrough.html">State-Space Controller Walkthrough</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/state-space/state-space-observers.html">State Observers and Kalman Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/state-space/state-space-pose-estimators.html">Pose Estimators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../software/advanced-controls/state-space/state-space-debugging.html">Debugging State-Space Models and Controllers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/advanced-controls/controls-glossary.html">Controls Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../software/convenience-features/index.html">Convenience Features</a><input class="toctree-checkbox" id="toctree-checkbox-58" name="toctree-checkbox-58" role="switch" type="checkbox"/><label for="toctree-checkbox-58"><div class="visually-hidden">Toggle navigation of Convenience Features</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../software/convenience-features/scheduling-functions.html">Scheduling Functions at Custom Frequencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../software/convenience-features/event-based.html">Event-Based Programming With EventLoop</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">דוגמאות ומדריכים</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../software/examples-tutorials/wpilib-examples.html">WPILib Example Projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../software/examples-tutorials/third-party-examples.html">Third Party Example Projects</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">חומרה</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../hardware/hardware-basics/index.html">חומרה - יסודות</a><input class="toctree-checkbox" id="toctree-checkbox-59" name="toctree-checkbox-59" role="switch" type="checkbox"/><label for="toctree-checkbox-59"><div class="visually-hidden">Toggle navigation of חומרה - יסודות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../controls-overviews/control-system-hardware.html">סקירת רכיבי חומרה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-basics/wiring-best-practices.html">Wiring Best Practices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-basics/can-wiring-basics.html">CAN Wiring Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-basics/wiring-pneumatics-pcm.html">Wiring Pneumatics - CTRE Pneumatic Control Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-basics/wiring-pneumatics-ph.html">Wiring Pneumatics - REV Pneumatic Hub</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-basics/status-lights-ref.html">הסבר קצר על Status Light</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-basics/preemptive-troubleshooting.html">Robot Preemptive Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-basics/robot-battery.html">Robot Battery Basics</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../hardware/hardware-tutorials/index.html">מדריכי חומרה</a><input class="toctree-checkbox" id="toctree-checkbox-60" name="toctree-checkbox-60" role="switch" type="checkbox"/><label for="toctree-checkbox-60"><div class="visually-hidden">Toggle navigation of מדריכי חומרה</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-tutorials/motors.html">מנועים ליישומים ברובוטיקה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-tutorials/sensors.html">חיישנים</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-tutorials/pneumatics.html">פניאומטיקה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/hardware-tutorials/transmissions.html">המרות כוח</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../hardware/sensors/index.html">חיישנים</a><input class="toctree-checkbox" id="toctree-checkbox-61" name="toctree-checkbox-61" role="switch" type="checkbox"/><label for="toctree-checkbox-61"><div class="visually-hidden">Toggle navigation of חיישנים</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/sensor-overview-hardware.html">Sensor Overview - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/analog-inputs-hardware.html">קלט אנלוגי - חומרה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/analog-potentiometers-hardware.html">Analog Potentiometers - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/digital-inputs-hardware.html">Digital Inputs - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/proximity-switches.html">Proximity Switches - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/encoders-hardware.html">אנקודרים - חומרה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/gyros-hardware.html">Gyroscopes - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/ultrasonics-hardware.html">Ultrasonics - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/accelerometers-hardware.html">Accelerometers - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/lidar.html">LIDAR - Hardware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/triangulating-rangefinders.html">מדי טווח שפועלים בשיטת הטריאנגולציה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hardware/sensors/serial-buses.html">Serial Buses</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">תמיכה ב-Romi וב-XRP</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../romi-robot/index.html">תחילת העבודה עם Romi</a><input class="toctree-checkbox" id="toctree-checkbox-62" name="toctree-checkbox-62" role="switch" type="checkbox"/><label for="toctree-checkbox-62"><div class="visually-hidden">Toggle navigation of תחילת העבודה עם Romi</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../romi-robot/hardware.html">חומרה והרכבה של Romi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../romi-robot/imaging-romi.html">צריבת ה-Romi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../romi-robot/getting-to-know-romi.html">Getting to know your Romi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../romi-robot/hardware-support.html">Romi Hardware Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../romi-robot/web-ui.html">The Romi Web UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../romi-robot/programming-romi.html">Programming the Romi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../romi-robot/programming-romi-in-labview.html">Programming the Romi (LabVIEW)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../xrp-robot/index.html">Getting Started with XRP</a><input class="toctree-checkbox" id="toctree-checkbox-63" name="toctree-checkbox-63" role="switch" type="checkbox"/><label for="toctree-checkbox-63"><div class="visually-hidden">Toggle navigation of Getting Started with XRP</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../xrp-robot/hardware-and-imaging.html">XRP Hardware, Assembly and Imaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xrp-robot/getting-to-know-xrp.html">Getting to know your XRP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xrp-robot/hardware-support.html">XRP Hardware Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xrp-robot/web-ui.html">The XRP Web UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../xrp-robot/programming-xrp.html">Programming the XRP</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">רשתות רובוט </span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../networking/networking-introduction/index.html">מבוא לרשתות</a><input class="toctree-checkbox" id="toctree-checkbox-64" name="toctree-checkbox-64" role="switch" type="checkbox"/><label for="toctree-checkbox-64"><div class="visually-hidden">Toggle navigation of מבוא לרשתות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking-introduction/networking-basics.html">יסודות הרשתות</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking-introduction/ip-configurations.html">קונפיגורציות IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking-introduction/roborio-network-troubleshooting.html">roboRIO Network Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking-introduction/windows-firewall-configuration.html">Windows Firewall Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking-introduction/measuring-bandwidth-usage.html">Measuring Bandwidth Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking-introduction/om5p-ac-radio-modification.html">OM5P-AC Radio Modification</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../networking/networking-utilities/index.html">כלי רשתות</a><input class="toctree-checkbox" id="toctree-checkbox-65" name="toctree-checkbox-65" role="switch" type="checkbox"/><label for="toctree-checkbox-65"><div class="visually-hidden">Toggle navigation of כלי רשתות</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../networking/networking-utilities/portforwarding.html">Port Forwarding</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">תרומה </span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../contributing/frc-docs/index.html">תרומה ל-frc-docs</a><input class="toctree-checkbox" id="toctree-checkbox-66" name="toctree-checkbox-66" role="switch" type="checkbox"/><label for="toctree-checkbox-66"><div class="visually-hidden">Toggle navigation of תרומה ל-frc-docs</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/frc-docs/contribution-guidelines.html">הנחיות תרומה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/frc-docs/style-guide.html">הנחיות סגנון</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/frc-docs/build-instructions.html">הנחיות בנייה</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/frc-docs/drawio-saving-instructions.html">הנחיות שמירת Draw.io</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/frc-docs/translations.html">תרגומים</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/frc-docs/top-translators.html">מתרגמים מובילים</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../contributing/wpilib/index.html">פיתוח עם allwpilib</a><input class="toctree-checkbox" id="toctree-checkbox-67" name="toctree-checkbox-67" role="switch" type="checkbox"/><label for="toctree-checkbox-67"><div class="visually-hidden">Toggle navigation of פיתוח עם allwpilib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib">סקירה כללית</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/styleguide/blob/main/README.md">הנחיות סגנון ו-wpiformat</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/README-CMAKE.md">בנייה עם CMake</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/DevelopmentBuilds.md">שימוש בגרסאות בפיתוח</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/MavenArtifacts.md">Maven Artifacts</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/CONTRIBUTING.md">הנחיות לתורמים</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/ntcore/doc/networktables4.adoc">NetworkTables 4 Protocol Spec</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/wpilibsuite/allwpilib/blob/main/ntcore/doc/networktables3.adoc">מפרט פרוטוקול 3 של NetworkTables</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">בעיות </span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/wpilibsuite/frc-docs/issues">דיוח על בעיה</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="introduction-to-frc-robot-wiring">
+<h1>Introduction to FRC Robot Wiring<a class="headerlink" href="#introduction-to-frc-robot-wiring" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>This document details the wiring of a basic electronics board for the kitbot or to allow basic drivetrain testing.</p>
+<p>Some images shown in this section reflect the setup for a Robot Control System using SPARK or SPARK MAX Motor Controllers. Wiring diagram and layout should be similar for other motor controllers. Where appropriate, two sets of images are provided to show connections using controllers with and without integrated wires.</p>
+</div>
+<section id="overview">
+<h2>סקירה כללית<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+    <iframe src="https://www.youtube-nocookie.com/embed/lGgIhxYuSHM" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+</div><hr class="docutils" />
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-0">
+REV</label><div class="sd-tab-content docutils">
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../../../_images/frc-control-system-layout-rev.svg"><img alt="Detailed diagram of all of the components and how they are connected." src="../../../_images/frc-control-system-layout-rev.svg" width="600" /></a>
+<figcaption>
+<p><span class="caption-text">התרשים באדיבות קבוצת #3161 ו-Stefen Acepcion.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-1">
+CTR</label><div class="sd-tab-content docutils">
+<figure class="align-default" id="id2">
+<a class="reference internal image-reference" href="../../../_images/frc-control-system-layout.svg"><img alt="Detailed diagram of all of the components and how they are connected." src="../../../_images/frc-control-system-layout.svg" width="600" /></a>
+<figcaption>
+<p><span class="caption-text">התרשים באדיבות קבוצת #3161 ו-Stefen Acepcion.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="gather-materials">
+<h2>Gather Materials<a class="headerlink" href="#gather-materials" title="Link to this heading">#</a></h2>
+<p>Locate the following control system components and tools</p>
+<ul>
+<li><p>Kit Materials:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Power Distribution Hub (<a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-PDH"><span class="xref std std-term">PDH</span></a>) / Power Distribution Panel (<a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-PDP"><span class="xref std std-term">PDP</span></a>)</p></li>
+<li><p>roboRIO</p></li>
+<li><p>Pneumatics Hub (<a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-PH"><span class="xref std std-term">PH</span></a>) / Pneumatics Control Module (<a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-PCM"><span class="xref std std-term">PCM</span></a>)</p></li>
+<li><p>Radio Power Module (<a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-RPM"><span class="xref std std-term">RPM</span></a>) / Voltage Regulator Module (<a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-VRM"><span class="xref std std-term">VRM</span></a>)</p></li>
+<li><p>OpenMesh radio (with power cable and Ethernet cable)</p></li>
+<li><p>Robot Signal Light (<a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-RSL"><span class="xref std std-term">RSL</span></a>)</p></li>
+<li><p>4x SPARK MAX or other motor controllers</p></li>
+<li><p>2x <a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-PWM"><span class="xref std std-term">PWM</span></a> y-cables</p></li>
+<li><p>120A Circuit breaker</p></li>
+<li><p>4x 40A Circuit breaker</p></li>
+<li><p>6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) Red wire</p></li>
+<li><p>10 AWG (6 <span class="math notranslate nohighlight">\(mm^2\)</span>) Red/Black wire</p></li>
+<li><p>18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) Red/Black wire</p></li>
+<li><p>22 AWG (0.5 <span class="math notranslate nohighlight">\(mm^2\)</span>) Yellow/Green twisted <a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-CAN"><span class="xref std std-term">CAN</span></a> cable</p></li>
+<li><p>8x Pairs of 10-12 AWG (4 - 6 <span class="math notranslate nohighlight">\(mm^2\)</span>) (Yellow) quick disconnect terminals (16x ring terminals if using integrated wire controllers)</p></li>
+<li><p>2x Anderson SB50 battery connectors</p></li>
+<li><p>6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) Terminal lugs</p></li>
+<li><p>12V Battery</p></li>
+<li><p>Red/Black Electrical tape</p></li>
+<li><p>Dual Lock material or fasteners</p></li>
+<li><p>Zip ties</p></li>
+<li><p>1/4“ or 1/2“ (6-12 mm) plywood</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Tools Required:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Wago Tool or small flat-head screwdriver</p></li>
+<li><p>Very small flat head screwdriver (eyeglass repair size)</p></li>
+<li><p>Wire cutters, strippers, and crimpers</p></li>
+<li><p>7/16“ (11 mm may work if imperial is unavailable) box end wrench or nut driver</p></li>
+<li><p>Additional 7/16“ wrench/nut driver or Philips head screw driver</p></li>
+<li><p>For CTR PDP only: 5 mm Hex key (3/16“ may work if metric is unavailable)</p></li>
+<li><p>For CTR PDP only: 1/16“ Hex key</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="create-the-base-for-the-control-system">
+<h2>Create the Base for the Control System<a class="headerlink" href="#create-the-base-for-the-control-system" title="Link to this heading">#</a></h2>
+<p>For a test board, cut piece of 1/4“ or 1/2“ (6-12 mm) material (wood or plastic) approximately 24“ x 16“ (60 x 40 cm). For a Robot Quick Build control board see the supporting documentation for the proper size board for the chosen chassis configuration.</p>
+</section>
+<section id="layout-the-core-control-system-components">
+<h2>Layout the Core Control System Components<a class="headerlink" href="#layout-the-core-control-system-components" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-2">
+REV</label><div class="sd-tab-content docutils">
+<img alt="A basic wiring layout with CTR components." src="../../../_images/layout-REV.jpg" />
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-3">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="A basic wiring layout with CTR components." src="../../../_images/layout.jpg" />
+</div>
+</div>
+<p>Lay out the components on the board. An example layout is shown in the image above.</p>
+</section>
+<section id="fasten-components">
+<h2>Fasten Components<a class="headerlink" href="#fasten-components" title="Link to this heading">#</a></h2>
+<img alt="Using zipties to secure components down." src="../../../_images/ziptie.png" />
+<p>Using the Dual Lock or hardware, fasten all components to the board. Note that in many FRC games robot-to-robot contact may be substantial and Dual Lock alone is unlikely to stand up as a fastener for many electronic components. Teams may wish to use nut and bolt fasteners or (as shown in the image above) cable ties, with or without Dual Lock to secure devices to the board.</p>
+</section>
+<section id="attach-robot-side-battery-connector">
+<h2>Attach Robot Side Battery Connector<a class="headerlink" href="#attach-robot-side-battery-connector" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-4">
+REV</label><div class="sd-tab-content docutils">
+<p>The next step will involve using the Wago connectors on the PDH. To use the Wago connectors, open the lever, insert the wire, then close the lever. Two sizes of Wago connector are found on the PDH:</p>
+<ul class="simple">
+<li><p>Main power connectors: Accept 4 - 18 AWG (.75 - 25 <span class="math notranslate nohighlight">\(mm^2\)</span>), strip 20 mm (~3/4“)</p></li>
+<li><p>High current channel connectors: Accept 8 - 24 AWG (.25 - 10 <span class="math notranslate nohighlight">\(mm^2\)</span>), strip 12 mm (~1/2“)</p></li>
+</ul>
+<p>To maximize pullout force and minimize connection resistance wires should not be tinned (and ideally not twisted) before inserting into the Wago connector.</p>
+<img alt="Highlights the location of the terminal lugs on the PDH and circuit breaker." src="../../../_images/terminal-lug-REV.jpg" />
+<p>Requires: Battery Connector, 6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) terminal lugs, 7/16“ (11 mm) Box end</p>
+<p>Attach terminal lug to positive (red) wire of battery connector. Strip .75“ off the black wire.</p>
+<p>Lift the lever above the black main power input terminal on the PDH until it clicks into place. Insert the wire. Pull the lever down to secure the wire.</p>
+<p>Using a 7/16“ (11 mm) box end wrench, remove the nut on the ”Batt“ side of the main breaker and secure the positive terminal of the battery connector</p>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-5">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Highlights the location of the terminal lugs on the PDP and circuit breaker." src="../../../_images/terminal-lug.jpg" />
+<p>Requires: Battery Connector, 6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) terminal lugs, 1/16“ Allen, 5 mm Allen,
+7/16“ (11 mm) Box end</p>
+<p>Attach terminal lugs to battery connector.</p>
+<ol class="arabic simple">
+<li><p>Using a 1/16“ Allen wrench, remove the two screws securing the PDP terminal cover.</p></li>
+<li><p>Using a 5 mm Allen wrench (3/16“), remove the negative (-) bolt and washer from the PDP and fasten the negative terminal of the battery connector.</p></li>
+<li><p>Using a 7/16“ (11 mm) box end wrench, remove the nut on the ”Batt“ side of the main breaker and secure the positive terminal of the battery connector</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="wire-breaker-to-power-distribution">
+<h2>Wire Breaker to Power Distribution<a class="headerlink" href="#wire-breaker-to-power-distribution" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-6">
+REV</label><div class="sd-tab-content docutils">
+<blockquote>
+<div><img alt="Show the circuit breaker wired to the PDH." src="../../../_images/circuit-breaker-REV.jpg" />
+<p>Requires: 6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) red wire, 1x 6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) terminal lugs, 7/16“ (11 mm) wrench</p>
+<p>Secure one terminal lug to the end of the 6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) red wire. Using the 7/16“ (11 mm) wrench, remove the nut from the ”AUX“ side of the 120A main breaker and place the terminal over the stud. Loosely secure the nut (you may wish to remove it shortly to cut and strip the other end of the wire). Measure out the length of wire required to reach the positive terminal of the PDH.</p>
+<ol class="arabic simple">
+<li><p>Cut and strip the other end of the red wire.</p></li>
+<li><p>Using the 7/16“ (11 mm) wrench, secure the wire to the ”AUX“ side of the 120A main breaker.</p></li>
+<li><p>Lift the lever on the positive (red) input terminal of the PDH, insert the wire, then close the terminal.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-7">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Show the circuit breaker wired to the PDP." src="../../../_images/circuit-breaker.jpg" />
+<p>Requires: 6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) red wire, 2x 6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) terminal lugs, 5 mm Allen, 7/16“ (11 mm) box end</p>
+<p>Secure one terminal lug to the end of the 6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) red wire. Using the 7/16“ (11 mm) box end, remove the nut from the ”AUX“ side of the 120A main breaker and place the terminal over the stud. Loosely secure the nut (you may wish to remove it shortly to cut, strip, and crimp the other end of the wire). Measure out the length of wire required to reach the positive terminal of the PDP.</p>
+<ol class="arabic simple">
+<li><p>Cut, strip, and crimp the terminal to the 2nd end of the red 6 AWG (16 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire.</p></li>
+<li><p>Using the 7/16“ (11 mm) box end, secure the wire to the ”AUX“ side of the 120A main breaker.</p></li>
+<li><p>Using the 5 mm Allen wrench, secure the other end to the PDP positive terminal.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="insulate-power-connections">
+<h2>Insulate power connections<a class="headerlink" href="#insulate-power-connections" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-4" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-8">
+REV</label><div class="sd-tab-content docutils">
+<img alt="Putting tape around the connectors to insulate them." src="../../../_images/insulate-REV.jpg" />
+<p>Requires: Electrical tape</p>
+<p>Using electrical tape, insulate the two connections to the 120A breaker.</p>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-4" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-9">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Putting tape around the connectors to insulate them." src="../../../_images/insulate.jpg" />
+<p>Requires: 1/16“ Allen, Electrical tape</p>
+<ol class="arabic simple">
+<li><p>Using electrical tape, insulate the two connections to the 120A breaker. Also insulate any part of the PDP terminals which will be exposed when the cover is replaced.</p></li>
+<li><p>Using the 1/16“ Allen wrench, replace the PDP terminal cover</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="motor-controller-power">
+<h2>Motor Controller Power<a class="headerlink" href="#motor-controller-power" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-10" name="sd-tab-set-5" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-10">
+REV</label><div class="sd-tab-content docutils">
+<blockquote>
+<div><img alt="Wiring power from the PDH to motor controllers." src="../../../_images/pdh-motor-power.jpg" />
+<img alt="Wiring power to a Spark Motor Controller with ring terminals." src="../../../_images/spark-power.jpg" />
+<p>Requires: Wire Stripper
+Terminal Controllers only: 10 or 12 AWG (4 - 6 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire , 10 or 12 AWG (4 - 6 <span class="math notranslate nohighlight">\(mm^2\)</span>) fork/ring terminals, wire crimper</p>
+<p>For SPARK MAX or other wire integrated motor controllers (top image):</p>
+<ul class="simple">
+<li><p>Cut and strip the red and black power input wires, then insert into one of the Wago terminal pairs.</p></li>
+</ul>
+<p>For terminal motor controllers (bottom image):</p>
+<ol class="arabic simple">
+<li><p>Cut red and black wire to appropriate length to reach from one of the Wago terminal pairs to the input side of the motor controller (with a little extra for the length that will be inserted into the terminals on each end)</p></li>
+<li><p>Strip one end of each of the wires, then insert into the Wago terminals.</p></li>
+<li><p>Strip the other end of each wire, and crimp on a ring or fork terminal</p></li>
+<li><p>Attach the terminal to the motor controller input terminals (red to +, black to -)</p></li>
+</ol>
+</div></blockquote>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-5" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-11">
+CTR</label><div class="sd-tab-content docutils">
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+    <iframe src="https://www.youtube-nocookie.com/embed/t-zb7j4ikHM" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+</div><p>The next step will involve using the Wago connectors on the PDP. To use the Wago connectors, insert a small flat blade screwdriver into the rectangular hole at a shallow angle then angle the screwdriver upwards as you continue to press in to actuate the lever, opening the terminal. Two sizes of Wago connector are found on the PDP:</p>
+<ul class="simple">
+<li><p>Small Wago connector: Accepts 10 - 24 AWG (0.25 - 6 <span class="math notranslate nohighlight">\(mm^2\)</span>), strip 11-12 mm (~7/16“)</p></li>
+<li><p>Large Wago connector: Accepts 6 - 12 AWG (4 - 16 <span class="math notranslate nohighlight">\(mm^2\)</span>), strip 12-13 mm (~1/2“)</p></li>
+</ul>
+<p>To maximize pullout force and minimize connection resistance wires should not be tinned (and ideally not twisted) before inserting into the Wago connector.</p>
+<img alt="Wiring power from the PDP to motor controllers." src="../../../_images/pdp-power.jpg" />
+<img alt="Wiring power to a Spark Motor Controller with ring terminals." src="../../../_images/spark-power.jpg" />
+<p>Requires: Wire Stripper, Small Flat Screwdriver,
+Terminal Controllers only: 10 or 12 AWG (4 - 6 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire, 10 or 12 AWG (4 - 6 <span class="math notranslate nohighlight">\(mm^2\)</span>) fork/ring terminals, wire crimper</p>
+<p>For SPARK MAX or other wire integrated motor controllers (top image):</p>
+<ul class="simple">
+<li><p>Cut and strip the red and black power input wires, then insert into one of the 40A (larger) Wago terminal pairs.</p></li>
+</ul>
+<p>For terminal motor controllers (bottom image):</p>
+<ol class="arabic simple">
+<li><p>Cut red and black wire to appropriate length to reach from one of the 40A (larger) Wago terminal pairs to the input side of the motor controller (with a little extra for the length that will be inserted into the terminals on each end)</p></li>
+<li><p>Strip one end of each of the wires, then insert into the Wago terminals.</p></li>
+<li><p>Strip the other end of each wire, and crimp on a ring or fork terminal</p></li>
+<li><p>Attach the terminal to the motor controller input terminals (red to +, black to -)</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="weidmuller-connectors">
+<h2>Weidmuller Connectors<a class="headerlink" href="#weidmuller-connectors" title="Link to this heading">#</a></h2>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
+    <iframe src="https://www.youtube-nocookie.com/embed/Zsnro-9_ZfQ" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+</div><p>A number of the CAN and power connectors in the system use a Weidmuller LSF series wire-to-board connector. There are a few things to keep in mind when using this connector for best results:</p>
+<ul class="simple">
+<li><p>Wire should be 16 AWG (1.5 <span class="math notranslate nohighlight">\(mm^2\)</span>) to 24 AWG (0.25 <span class="math notranslate nohighlight">\(mm^2\)</span>) (consult rules to verify required gauge for power wiring)</p></li>
+<li><p>Wire ends should be stripped approximately 5/16 (~8 mm)“</p></li>
+<li><p>To insert or remove the wire, press down on the corresponding ”button“ to open the terminal</p></li>
+</ul>
+<p>After making the connection check to be sure that it is clean and secure:</p>
+<ul class="simple">
+<li><p>Verify that there are no ”whiskers“ outside the connector that may cause a short circuit</p></li>
+<li><p>Tug on the wire to verify that it is seated fully. If the wire comes out and is the correct gauge it needs to be inserted further and/or stripped back further. Occasionally the terminal may remain stuck open with the wire inserted and the button released even if the wire is stripped and inserted properly; in these cases wiggling the wire in and out a small amount will often allow the connector to latch shut and grip the wire.</p></li>
+</ul>
+</section>
+<section id="roborio-power">
+<h2>roboRIO Power<a class="headerlink" href="#roborio-power" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-12" name="sd-tab-set-6" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-12">
+REV</label><div class="sd-tab-content docutils">
+<blockquote>
+<div><img alt="Power coming from the PDH to the roboRIO." src="../../../_images/roborio-power-REV.jpg" />
+<img alt="Power going into the roboRIO." src="../../../_images/roborio-power-pdh.jpg" />
+<p>Requires: 10A mini fuse, Wire stripper, very small flat screwdriver, 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) Red and Black</p>
+<ol class="arabic simple">
+<li><p>Insert the 10A fuse into the PDH in one of the non-switchable fused channels (20-22).</p></li>
+<li><p>Strip ~5/16“ (~8 mm) on both the red and black 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire and connect to the corresponding terminals on the PDH channel where the fuse was installed</p></li>
+<li><p>Measure the required length to reach the power input on the roboRIO. Take care to leave enough length to route the wires around any other components such as the battery and to allow for any strain relief or cable management.</p></li>
+<li><p>Cut and strip the wire.</p></li>
+<li><p>Using a very small flat screwdriver connect the wires to the power input connector of the roboRIO (red to V, black to C). Also make sure that the power connector is screwed down securely to the roboRIO.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<input id="sd-tab-item-13" name="sd-tab-set-6" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-13">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Power coming from the PDP to the roboRIO." src="../../../_images/roborio-power.jpg" />
+<p>Requires: 10A/20A mini fuses, Wire stripper, very small flat screwdriver, 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) Red and Black</p>
+<ol class="arabic simple">
+<li><p>Insert the 10A and 20A mini fuses in the PDP in the locations shown on the silk screen (and in the image above)</p></li>
+<li><p>Strip ~5/16“ (~8 mm) on both the red and black 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire and connect to the ”Vbat Controller PWR“ terminals on the PDB</p></li>
+<li><p>Measure the required length to reach the power input on the roboRIO. Take care to leave enough length to route the wires around any other components such as the battery and to allow for any strain relief or cable management.</p></li>
+<li><p>Cut and strip the wire.</p></li>
+<li><p>Using a very small flat screwdriver connect the wires to the power input connector of the roboRIO (red to V, black to C). Also make sure that the power connector is screwed down securely to the roboRIO.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="radio-power">
+<h2>Radio Power<a class="headerlink" href="#radio-power" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-14" name="sd-tab-set-7" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-14">
+REV</label><div class="sd-tab-content docutils">
+<blockquote>
+<div><img alt="Power going from the PDH to the RPM." src="../../../_images/rpm-pdh-power.jpg" />
+<img alt="Power going into the RPM." src="../../../_images/rpm.jpg" />
+<p>Requires: Wire stripper, small flat screwdriver (optional), 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) red and black wire:</p>
+<ol class="arabic simple">
+<li><p>Insert the 10A fuse into the PDH in one of the non-switchable fused channels (20-22).</p></li>
+<li><p>Strip ~5/16“ (~8 mm) on the end of the red and black 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire and connect the wire to the corresponding terminals on the PDH.</p></li>
+<li><p>Measure the length required to reach the ”12V Input“ terminals on the Radio Power Module. Take care to leave enough length to route the wires around any other components such as the battery and to allow for any strain relief or cable management.</p></li>
+<li><p>Cut and strip ~5/16“ (~8 mm) from the end of the wire.</p></li>
+<li><p>Connect the wire to the RPM 12V Input terminals.</p></li>
+</ol>
+</div></blockquote>
+</div>
+<input id="sd-tab-item-15" name="sd-tab-set-7" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-15">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Power going from the PDP to the VRM." src="../../../_images/vrm-power.jpg" />
+<p>Requires: Wire stripper, small flat screwdriver (optional), 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) red and black wire:</p>
+<ol class="arabic simple">
+<li><p>Strip ~5/16“ (~8 mm) on the end of the red and black 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire.</p></li>
+<li><p>Connect the wire to one of the two terminal pairs labeled ”Vbat VRM PCM PWR“ on the PDP.</p></li>
+<li><p>Measure the length required to reach the ”12Vin“ terminals on the VRM. Take care to leave enough length to route the wires around any other components such as the battery and to allow for any strain relief or cable management.</p></li>
+<li><p>Cut and strip ~5/16“ (~8 mm) from the end of the wire.</p></li>
+<li><p>Connect the wire to the VRM 12Vin terminals.</p></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">אזהרה</p>
+<p>DO NOT connect the Rev passive POE injector cable directly to the roboRIO. The roboRIO MUST connect to the socket end of the cable using an additional Ethernet cable as shown in the next step.</p>
+</div>
+<img alt="Connection power to the robot radio via a PoE cable." src="../../../_images/radio-power.jpg" />
+<p>Requires: Small flat screwdriver (optional), Rev radio PoE cable</p>
+<ol class="arabic simple">
+<li><p>Insert the ferrules of the passive PoE injector cable into the corresponding colored terminals on the 12V/2A section of the VRM.</p></li>
+<li><p>Connect the RJ45 (Ethernet) plug end of the cable into the Ethernet port on the radio closest to the barrel connector (labeled 18-24v POE)</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="pneumatics-power-optional">
+<h2>Pneumatics Power (Optional)<a class="headerlink" href="#pneumatics-power-optional" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-16" name="sd-tab-set-8" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-16">
+REV</label><div class="sd-tab-content docutils">
+<img alt="Power going from the PDH to the PH." src="../../../_images/ph-pdh-power.jpg" />
+<img alt="Power going into the PH." src="../../../_images/ph.jpg" />
+<p>Requires: Wire stripper, small flat screwdriver (optional), 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) red and black wire</p>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>The Pneumatics Hub is an optional component used for controlling pneumatics on the robot.</p>
+</div>
+<p>The Pneumatics Hub can be wired to either a non-switchable fused port on the PDH with a 15A or smaller fuse or to a circuit breaker protected port with a breaker up to 20A.</p>
+<ol class="arabic simple">
+<li><p>Strip ~5/16“ (~8 mm) on the end of the red and black 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire.</p></li>
+<li><p>Connect the wire to the PDH in one of the two ways described above</p></li>
+<li><p>Measure the length required to reach the red terminals on the short end of the PH labeled +/-. Take care to leave enough length to route the wires around any other components such as the battery and to allow for any strain relief or cable management.</p></li>
+<li><p>Cut and strip ~5/16“ (~8 mm) from the other end of the wire.</p></li>
+<li><p>Connect the wire to the PH input terminals.</p></li>
+</ol>
+</div>
+<input id="sd-tab-item-17" name="sd-tab-set-8" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-17">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Power going from the PDP to the PCM." src="../../../_images/pcm-power.jpg" />
+<p>Requires: Wire stripper, small flat screwdriver (optional), 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) red and black wire</p>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>The PCM is an optional component used for controlling pneumatics on the robot.</p>
+</div>
+<ol class="arabic simple">
+<li><p>Strip ~5/16“ (~8 mm) on the end of the red and black 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire.</p></li>
+<li><p>Connect the wire to one of the two terminal pairs labeled ”Vbat VRM PCM PWR“ on the PDP.</p></li>
+<li><p>Measure the length required to reach the ”Vin“ terminals on the PCM. Take care to leave enough length to route the wires around any other components such as the battery and to allow for any strain relief or cable management.</p></li>
+<li><p>Cut and strip ~5/16“ (~8 mm) from the end of the wire.</p></li>
+<li><p>Connect the wire to the PCM 12Vin terminals.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="ethernet-cables">
+<h2>Ethernet Cables<a class="headerlink" href="#ethernet-cables" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-18" name="sd-tab-set-9" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-18">
+REV</label><div class="sd-tab-content docutils">
+<img alt="Picture of the RPM." src="../../../_images/rpm.jpg" />
+<img alt="Picture of the radio." src="../../../_images/radio.jpg" />
+<p>Requires: 2x Ethernet cables</p>
+<ol class="arabic simple">
+<li><p>Connect an Ethernet cable from the RJ45 (Ethernet) socket of the roboRIO to the port on the Radio Power Module labeled roboRIO.</p></li>
+<li><p>Connect an Ethernet cable from the RJ45 socket of the radio closest to the barrel connector socket (labeled 18-24v POE) to the socket labeled WiFi Radio on the RPM</p></li>
+</ol>
+</div>
+<input id="sd-tab-item-19" name="sd-tab-set-9" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-19">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Connecting Ethernet from the roboRIO to the PoE cable." src="../../../_images/radio-ethernet.jpg" />
+<p>Requires: Ethernet cable</p>
+<p>Connect an Ethernet cable from the RJ45 (Ethernet) socket of the Rev Passive POE cable to the RJ45 (Ethernet) port on the roboRIO.</p>
+</div>
+</div>
+</section>
+<section id="can-devices">
+<h2>מכשירי CAN<a class="headerlink" href="#can-devices" title="Link to this heading">#</a></h2>
+<section id="roborio-to-pneumatics-can">
+<h3>roboRIO to Pneumatics CAN<a class="headerlink" href="#roborio-to-pneumatics-can" title="Link to this heading">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-20" name="sd-tab-set-10" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-20">
+REV</label><div class="sd-tab-content docutils">
+<img alt="roboRIO CAN connection." src="../../../_images/roborio-can.jpg" />
+<img alt="PH CAN connection." src="../../../_images/ph.jpg" />
+<p>Requires: Wire stripper, small flat screwdriver (optional), yellow/green twisted CAN cable</p>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>The PH is an optional component used for controlling pneumatics on the robot. If you are not using the PH, wire the CAN connection directly from the roboRIO (shown in this step) to the PDH (shown in the next step).</p>
+</div>
+<ol class="arabic simple">
+<li><p>Strip ~5/16“ (~8 mm) off of each of the CAN wires.</p></li>
+<li><p>Insert the wires into the appropriate CAN terminals on the roboRIO (Yellow-&gt;YEL, Green-&gt;GRN).</p></li>
+<li><p>Measure the length required to reach the CAN terminals of the PCM (either of the two available pairs). Cut and strip ~5/16“ (~8 mm) off this end of the wires.</p></li>
+<li><p>Insert the wires into the appropriate color coded CAN terminals on the PH. You may use either of the Yellow/Green terminal pairs on the PH, there is no defined in or out.</p></li>
+</ol>
+</div>
+<input id="sd-tab-item-21" name="sd-tab-set-10" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-21">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Connecting CAN wire from the roboRIO to the PCM." src="../../../_images/pcm-can.jpg" />
+<p>Requires: Wire stripper, small flat screwdriver (optional), yellow/green twisted CAN cable</p>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>The PCM is an optional component used for controlling pneumatics on the robot. If you are not using the PCM, wire the CAN connection directly from the roboRIO (shown in this step) to the PDP (shown in the next step).</p>
+</div>
+<ol class="arabic simple">
+<li><p>Strip ~5/16“ (~8 mm) off of each of the CAN wires.</p></li>
+<li><p>Insert the wires into the appropriate CAN terminals on the roboRIO (Yellow-&gt;YEL, Green-&gt;GRN).</p></li>
+<li><p>Measure the length required to reach the CAN terminals of the PCM (either of the two available pairs). Cut and strip ~5/16“ (~8 mm) off this end of the wires.</p></li>
+<li><p>Insert the wires into the appropriate color coded CAN terminals on the PCM. You may use either of the Yellow/Green terminal pairs on the PCM, there is no defined in or out.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="pneumatics-to-pd-can">
+<h3>Pneumatics to PD CAN<a class="headerlink" href="#pneumatics-to-pd-can" title="Link to this heading">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-22" name="sd-tab-set-11" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-22">
+REV</label><div class="sd-tab-content docutils">
+<blockquote>
+<div><img alt="PH CAN connection." src="../../../_images/ph-pdh-power.jpg" />
+<img alt="PH CAN connection." src="../../../_images/ph.jpg" />
+<p>Requires: Wire stripper, small flat screwdriver (optional), yellow/green twisted CAN cable</p>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>The PH is an optional component used for controlling pneumatics on the robot. If you are not using the PH, wire the CAN connection directly from the roboRIO (shown in the above step) to the PDH (shown in this step).</p>
+</div>
+<ol class="arabic simple">
+<li><p>Strip ~5/16“ (~8 mm) off of each of the CAN wires.</p></li>
+<li><p>Insert the wires into the appropriate CAN terminals on the PH.</p></li>
+<li><p>Measure the length required to reach the CAN terminals of the PDH (either of the two available pairs). Cut and strip ~5/16“ (~8 mm) off this end of the wires.</p></li>
+<li><p>Insert the wires into the appropriate color coded CAN terminals on the PDH. You may use either of the Yellow/Green terminal pairs on the PDH, there is no defined in or out.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>See the <a class="reference internal" href="../../hardware/hardware-basics/can-wiring-basics.html#termination"><span class="std std-ref">CAN Wiring Basics</span></a> if you need to terminate the CAN bus somewhere other than the PDP.</p>
+</div>
+</div></blockquote>
+</div>
+<input id="sd-tab-item-23" name="sd-tab-set-11" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-23">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Connecting the PCM CAN to the PDP." src="../../../_images/pdp-can.jpg" />
+<p>Requires: Wire stripper, small flat screwdriver (optional), yellow/green twisted CAN cable</p>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>The PCM is an optional component used for controlling pneumatics on the robot. If you are not using the PCM, wire the CAN connection directly from the roboRIO (shown in the above step) to the PDP (shown in this step).</p>
+</div>
+<ol class="arabic simple">
+<li><p>Strip ~5/16“ (~8 mm) off of each of the CAN wires.</p></li>
+<li><p>Insert the wires into the appropriate CAN terminals on the PCM.</p></li>
+<li><p>Measure the length required to reach the CAN terminals of the PDP (either of the two available pairs). Cut and strip ~5/16“ (~8 mm) off this end of the wires.</p></li>
+<li><p>Insert the wires into the appropriate color coded CAN terminals on the PDP. You may use either of the Yellow/Green terminal pairs on the PDP, there is no defined in or out.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">הערה</p>
+<p>See the <a class="reference internal" href="../../hardware/hardware-basics/can-wiring-basics.html#termination"><span class="std std-ref">CAN Wiring Basics</span></a> if you need to terminate the CAN bus somewhere other than the PDP.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="motor-controller-signal-wires">
+<h2>Motor Controller Signal Wires<a class="headerlink" href="#motor-controller-signal-wires" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-24" name="sd-tab-set-12" type="radio">
+</input><label class="sd-tab-label" data-sync-id="PWM" for="sd-tab-item-24">
+PWM</label><div class="sd-tab-content docutils">
+<img alt="PWM Cables going from the roboRIO to the Spark Motor Controller." src="../../../_images/pwm.jpg" />
+<p>This section details how to wire the SPARK MAX controllers using PWM signaling. This is a recommended starting point as it is less complex and easier to troubleshoot than CAN operation. The SPARK MAXs (and many other FRC motor controllers) can also be wired using <a class="reference internal" href="../../hardware/hardware-basics/can-wiring-basics.html#can-wiring-basics"><span class="std std-ref">CAN</span></a> which unlocks easier configuration, advanced functionality, better diagnostic data and reduces the amount of wire needed.</p>
+<p>Requires: 4x SPARK MAX PWM adapters (if using SPARK MAX), 4x PWM cables (if controllers without integrated wires or adapters, otherwise optional), 2x PWM Y-cable (Optional)</p>
+<p>Option 1 (Direct connect):</p>
+<ol class="arabic simple">
+<li><p>If using SPARK MAX, attach the PWM adapter to the SPARK MAX (small adapter with a 3 pin connector with black/white wires).</p></li>
+<li><p>If needed, attach PWM extension cables to the controller or adapter. On the controller side, match the colors or markings (some controllers may have green/yellow wiring, green should connect to black).</p></li>
+<li><p>Attach the other end of the cable to the roboRIO with the black wire towards the outside of the roboRIO. It is recommended to connect the left side to PWM 0 and 1 and the right side to PWM 2 and 3 for the most straightforward programming experience, but any channel will work as long as you note which side goes to which channel and adjust the code accordingly.</p></li>
+</ol>
+<p>Option 2 (Y-cable):</p>
+<ol class="arabic simple">
+<li><p>If using SPARK MAX, attach the PWM adapter to the SPARK MAX (small adapter with a 3 pin connector with black/white wires).</p></li>
+<li><p>If needed, attach PWM extension cables between the controller or adapter and the PWM Y-cable. On the controller side, match the colors or markings (some controllers may have green/yellow wiring, green should connect to black).</p></li>
+<li><p>Connect 1 PWM Y-cable to the 2 PWM cables for the controllers controlling each side of the robot. The brown wire on the Y-cable should match the black wire on the PWM cable.</p></li>
+<li><p>Connect the PWM Y-cables to the PWM ports on the roboRIO. The brown wire should be towards the outside of the roboRIO. It is recommended to connect the left side to PWM 0 and the right side to PWM 1 for the most straightforward programming experience, but any channel will work as long as you note which side goes to which channel and adjust the code accordingly.</p></li>
+</ol>
+</div>
+<input id="sd-tab-item-25" name="sd-tab-set-12" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CAN" for="sd-tab-item-25">
+CAN</label><div class="sd-tab-content docutils">
+<p>The Spark MAX controllers can also be wired using CAN. When wiring CAN the objective is to create a single complete bus running from the roboRIO on one end and running through all CAN devices on the robot. It is recommended to have either Power Distribution device at the other end of the bus because they have built-in termination. If you do not wish to locate one of these devices at the end of the bus see <a class="reference internal" href="../../hardware/hardware-basics/can-wiring-basics.html#can-wiring-basics"><span class="std std-ref">CAN Wiring Basics</span></a> for info about terminating yourself.</p>
+<p>The Spark MAX controllers come with CAN cables that are pre-terminated with connectors. You can chain these cables together directly, or buy or build extension cables to bridge larger gaps. To connect to other CAN devices such as pneumatics controllers, power distribution boards, or the roboRIO you will need to either cut off one of these pre-terminated connectors on the controller, cut off a connector on an extension, or build your own extension with just a single connector.</p>
+<p>When chaining controllers together using the provided connectors, make sure to use the provided retaining clip. If unavailable, secure the connection with a small ziptie, electrical tape, or other similar method.</p>
+</div>
+</div>
+</section>
+<section id="robot-signal-light">
+<h2>Robot Signal Light<a class="headerlink" href="#robot-signal-light" title="Link to this heading">#</a></h2>
+<img alt="Robot Signal Light (rsl) wiring from roboRIO to RSL" src="../../../_images/rsl.jpg" />
+<p>Requires: Wire stripper, 2 pin cable, Robot Signal Light, 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) red wire, very small flat screwdriver</p>
+<ol class="arabic simple">
+<li><p>Cut one end off of the 2 pin cable and strip both wires</p></li>
+<li><p>Insert the black wire into the center, ”N“ terminal and tighten the terminal.</p></li>
+<li><p>Strip the 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) red wire and insert into the ”La“ terminal and tighten the terminal.</p></li>
+<li><p>Cut and strip the other end of the 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) wire to insert into the ”Lb“ terminal</p></li>
+<li><p>Insert the red wire from the two pin cable into the ”Lb“ terminal with the 18 AWG (1 <span class="math notranslate nohighlight">\(mm^2\)</span>) red wire and tighten the terminal.</p></li>
+<li><p>Connect the two-pin connector to the RSL port on the roboRIO. The black wire should be closest to the outside of the roboRIO.</p></li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">טיפ</p>
+<p>You may wish to temporarily secure the RSL to the control board using cable ties or Dual Lock (it is recommended to move the RSL to a more visible location as the robot is being constructed)</p>
+</div>
+</section>
+<section id="circuit-breakers">
+<h2>Circuit Breakers<a class="headerlink" href="#circuit-breakers" title="Link to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-26" name="sd-tab-set-13" type="radio">
+</input><label class="sd-tab-label" data-sync-id="REV" for="sd-tab-item-26">
+REV</label><div class="sd-tab-content docutils">
+<img alt="Installing 40A breakers in the PDP." src="../../../_images/40A-breaker-REV.jpg" />
+<p>Requires: 4x 40A circuit breakers</p>
+<p>Insert 40-amp Circuit Breakers into the positions on the PDH corresponding with the Wago connectors the motor controllers are connected to. Note that the white graphic indicates which breakers are associated with which terminal pairs.</p>
+<p>If working on a Robot Quick Build, stop here and insert the board into the robot chassis before continuing.</p>
+</div>
+<input id="sd-tab-item-27" name="sd-tab-set-13" type="radio">
+</input><label class="sd-tab-label" data-sync-id="CTR" for="sd-tab-item-27">
+CTR</label><div class="sd-tab-content docutils">
+<img alt="Installing 40A breakers in the PDP." src="../../../_images/40A-breaker.jpg" />
+<p>Requires: 4x 40A circuit breakers</p>
+<p>Insert 40-amp Circuit Breakers into the positions on the PDP corresponding with the Wago connectors the motor controllers are connected to. Note that, for all breakers, the breaker corresponds with the nearest positive (red) terminal (see graphic above). All negative terminals on the board are directly connected internally.</p>
+<p>If working on a Robot Quick Build, stop here and insert the board into the robot chassis before continuing.</p>
+</div>
+</div>
+</section>
+<section id="motor-power">
+<h2>Motor Power<a class="headerlink" href="#motor-power" title="Link to this heading">#</a></h2>
+<img alt="Connecting power from the motor to the motor controller." src="../../../_images/motor-power.jpg" />
+<p>Requires: Wire stripper, wire crimper, phillips head screwdriver, wire connecting hardware</p>
+<p>For each <a class="hxr-hoverxref hxr-tooltip reference internal" href="../../software/frc-glossary.html#term-CIM"><span class="xref std std-term">CIM</span></a> motor:</p>
+<ul class="simple">
+<li><p>Strip the ends of the red and black wires from the CIM</p></li>
+</ul>
+<p>For integrated wire controllers including SPARK MAX (top image):</p>
+<ol class="arabic simple">
+<li><p>Strip the red and black wires (or white and green wires) from the controller (the SPARK MAX white wire is unused for brushed motors such as the CIM, it should be secured and the end should be insulated such with electrical tape or other insulation method).</p></li>
+<li><p>Connect the motor wires to the matching controller output wires (for controllers with white/green, connect red to white and green to black). The images above show an example using quick disconnect terminals which are provided in the Rookie KOP.</p></li>
+</ol>
+<p>For the SPARK or other non-integrated-wire controllers (bottom image):</p>
+<ol class="arabic simple">
+<li><p>Crimp a ring/fork terminal on each of the motor wires.</p></li>
+<li><p>Attach the wires to the output side of the motor controller (red to +, black to -)</p></li>
+</ol>
+</section>
+<section id="stop">
+<h2>STOP<a class="headerlink" href="#stop" title="Link to this heading">#</a></h2>
+<img alt="Giant red stop sign." src="../../../_images/stop.png" />
+<div class="admonition danger">
+<p class="admonition-title">סכנה</p>
+<p>Before plugging in the battery, make sure all connections have been made with the proper polarity. Ideally have someone that did not wire the robot check to make sure all connections are correct.</p>
+</div>
+<ul class="simple">
+<li><p>Start with the battery and verify that the red wire is connected to the positive terminal</p></li>
+<li><p>Check that the red wire passes through the main breaker and to the + terminal of the PDP and that the black wire travels directly to the - terminal.</p></li>
+<li><p>For each motor controller, verify that the red wire goes from the red PDP terminal to the V+ terminal on the motor controller (not M+!!!!)</p></li>
+<li><p>For each non-motor controller device, verify that the red wire runs from a red terminal on the PD connects to a red terminal on the component.</p></li>
+<li><p>Make sure that the PoE cable is plugged directly into the radio NOT THE roboRIO!</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">טיפ</p>
+<p>It is also recommended to put the robot on blocks so the wheels are off the ground before proceeding. This will prevent any unexpected movement from becoming dangerous.</p>
+</div>
+</section>
+<section id="manage-wires">
+<h2>Manage Wires<a class="headerlink" href="#manage-wires" title="Link to this heading">#</a></h2>
+<p>Requires: Zip ties</p>
+<div class="admonition tip">
+<p class="admonition-title">טיפ</p>
+<p>Now may be a good time to add a few zip ties to manage some of the wires before proceeding. This will help keep the robot wiring neat.</p>
+</div>
+</section>
+<section id="connect-battery">
+<h2>Connect Battery<a class="headerlink" href="#connect-battery" title="Link to this heading">#</a></h2>
+<p>Connect the battery to the robot side of the Anderson connector. Power on the robot by moving the lever on the top of the 120A main breaker into the ridge on the top of the housing.</p>
+<p>If stuff blinks, you probably did it right. If you hear any clicking, or see any smoke, power the system off immediately, clicking is likely the sound of circuit breakers tripping.</p>
+<p>Before moving on, if using SPARK MAX controllers, there is one more configuration step to complete. The SPARK MAX motor controllers are configured to control a brushless motor by default. You can verify this by checking that the light on the controller is blinking either cyan or magenta (indicating brushless brake or brushless coast respectively). To change to brushed mode, press and hold the mode button for 3-4 seconds until the status LED changes color. The LED should change to either blue or yellow, indicating that the controller is in brushed mode (brake or coast respectively). To change the brake or coast mode, which controls how quickly the motor slows down when a neutral signal is applied, press the mode button briefly.</p>
+<div class="admonition tip">
+<p class="admonition-title">טיפ</p>
+<p>For more information on the SPARK MAX motor controllers, including how to test your motors/controllers without writing any code by using the REV Hardware Client, see the <a class="reference external" href="https://docs.revrobotics.com/sparkmax/gs-sm">SPARK MAX Quickstart guide</a>.</p>
+</div>
+<p>From here, you should connect to the roboRIO and try uploading your code!</p>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../step-2/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">שלב 2: התקנת התוכנות</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">שלב 1: בניית הרובוט</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, FIRST and other WPILib Contributors. This work is licensed under a Creative Commons Attribution 4.0 International License
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Introduction to FRC Robot Wiring</a><ul>
+<li><a class="reference internal" href="#overview">סקירה כללית</a></li>
+<li><a class="reference internal" href="#gather-materials">Gather Materials</a></li>
+<li><a class="reference internal" href="#create-the-base-for-the-control-system">Create the Base for the Control System</a></li>
+<li><a class="reference internal" href="#layout-the-core-control-system-components">Layout the Core Control System Components</a></li>
+<li><a class="reference internal" href="#fasten-components">Fasten Components</a></li>
+<li><a class="reference internal" href="#attach-robot-side-battery-connector">Attach Robot Side Battery Connector</a></li>
+<li><a class="reference internal" href="#wire-breaker-to-power-distribution">Wire Breaker to Power Distribution</a></li>
+<li><a class="reference internal" href="#insulate-power-connections">Insulate power connections</a></li>
+<li><a class="reference internal" href="#motor-controller-power">Motor Controller Power</a></li>
+<li><a class="reference internal" href="#weidmuller-connectors">Weidmuller Connectors</a></li>
+<li><a class="reference internal" href="#roborio-power">roboRIO Power</a></li>
+<li><a class="reference internal" href="#radio-power">Radio Power</a></li>
+<li><a class="reference internal" href="#pneumatics-power-optional">Pneumatics Power (Optional)</a></li>
+<li><a class="reference internal" href="#ethernet-cables">Ethernet Cables</a></li>
+<li><a class="reference internal" href="#can-devices">מכשירי CAN</a><ul>
+<li><a class="reference internal" href="#roborio-to-pneumatics-can">roboRIO to Pneumatics CAN</a></li>
+<li><a class="reference internal" href="#pneumatics-to-pd-can">Pneumatics to PD CAN</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#motor-controller-signal-wires">Motor Controller Signal Wires</a></li>
+<li><a class="reference internal" href="#robot-signal-light">Robot Signal Light</a></li>
+<li><a class="reference internal" href="#circuit-breakers">Circuit Breakers</a></li>
+<li><a class="reference internal" href="#motor-power">Motor Power</a></li>
+<li><a class="reference internal" href="#stop">STOP</a></li>
+<li><a class="reference internal" href="#manage-wires">Manage Wires</a></li>
+<li><a class="reference internal" href="#connect-battery">Connect Battery</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../_static/jquery.js?v=5d32c60e"></script> <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script> <script src="../../../_static/documentation_options.js?v=d41de297"></script> <script src="../../../_static/doctools.js?v=888ff710"></script> <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script> <script src="../../../_static/scripts/furo.js?v=32e29ea5"></script> <script async="async" src="../../../_static/js/present.js?v=2b5739e0"></script> <script src="../../../_static/js/hoverxref.js?v=cd34ac60"></script> <script src="../../../_static/js/tooltipster.bundle.min.js?v=18bf091b"></script> <script src="../../../_static/js/micromodal.min.js?v=04d6302d"></script> <script src="../../../_static/js/versionwarning.js?v=833f5b0d"></script> <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script> <script src="../../../_static/copybutton.js?v=f281be69"></script> <script src="../../../_static/pid-tune.js?v=4c388ee0"></script> <script src="../../../_static/js/api-docs-redirect.js?v=0985b9a8"></script> <script src="../../../_static/js/fix-rtd-menu-ios.js?v=473127e0"></script> <script src="../../../_static/js/external-links-new-tab.js?v=bfd61058"></script> <script src="../../../_static/js/version-2014.js?v=23cc7a89"></script> <script src="../../../_static/translations.js?v=6a079299"></script> <script src="../../../_static/design-tabs.js?v=36754332"></script> <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+<script defer>
+  const button = Object.assign(document.createElement("a"), {
+    href: "?present",
+    className: "present muted-link",
+  });
+  button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" /></svg>`;
+  const container = document.querySelector(".content-icon-container");
+  container.appendChild(button);
+</script></body>
+</html>
